@@ -1,0 +1,94 @@
+Login
+- evtl. Registrierung hinzufügen
+- evtl. Funktion "eingeloggt" bleiben
+- kein direktes Menü sondern in alles andere einbinden
+
+Klassenliste (Adminbereich)
+- evtl. für Schüler sichtbar (Read only)
+- 
+
+Schülerliste
+- 
+- 
+
+detailierte Schülerliste
+- Fehlminuten hinzufügen
+- 
+
+Fächerliste
+- 
+- 
+
+Lehrerliste
+- evtl. "Fächer hinzufügen" entfernen
+- 
+
+neuer Lehrer
+- 
+- 
+
+Administrator-Seite
+- nicht so wichtig
+- 
+
+Stundenplan für eine Woche
+- evtl. Excel-Importe ermöglichen
+- Gültigkeitsbereich festlegen
+
+Neuen Stundenplan anlegen
+- 
+- 
+
+Fehlzeitenliste (klassen)
+- evtl. voreingestelltes Datum (für Tag)
+- Datum auch änderbar (für evtl. spätere Eintragungen
+- ganze Klasse anzeigen
+- Ansicht verbessern
+
+Fehlzeiten für bestimmten Zeitraum (einzelner Schüler)
+- Fehlminuten hinzufügen
+- 
+
+Anwesenheitsliste
+- 
+- 
+
+Stundenberichte
+- Rechte (z.B. Wasserzeichen)
+- 
+
+Stundeninhalte im Zeitraum
+- 
+- 
+
+Notenliste
+- Datum zentral für Noten hinzufügen
+- Reminder für Nachtragen von Noten bei fehlenden Schülern (mit / ohne Bescheinigung)
+- Spalten pro Note, Datum
+
+-------------------------------------------
+
+Menü allg.
+- Administration verbessern
+- 
+
+-------------------------------------------
+
+Bemerkungen:
+
+- bei selbstregistrierung der Schüler:
+	- evtl. 
+- Kontaktdaten
+	- Telefon
+	- Email
+
+
+
+
+
+
+
+
+
+
+
