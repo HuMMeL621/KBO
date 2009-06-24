@@ -77,9 +77,13 @@ Menü allg.
 Bemerkungen:
 
 - bei selbs
+<<<<<<< HEAD:verbesserungen_grp2.txt
+
+=======
+>>>>>>> e2b039eef00d140d051080660f63d028aa7f0e27:verbesserungen_grp2.txt
 
 
-
+test
 
 
 
