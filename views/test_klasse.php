@@ -13,4 +13,8 @@ echo '<br>';
 //Ausgabe ID
 echo $id;
 
+$tester = stundenplan::get_BlockT();
+
+html::showAll($tester);
+
 ?>

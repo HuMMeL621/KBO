@@ -1,7 +1,6 @@
 <?php
 class Schueler
 {
-
 	private	$schueler_id;
 	private	$vorname;
 	private	$nachname;

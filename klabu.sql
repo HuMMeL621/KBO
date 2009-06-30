@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jun 26, 2009 at 02:08 
+-- Generation Time: Jun 30, 2009 at 11:59 
 -- Server version: 5.1.33
 -- PHP Version: 5.2.9
 
@@ -229,3 +229,30 @@ CREATE TABLE IF NOT EXISTS `wochenplan` (
 -- Dumping data for table `wochenplan`
 --
 
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `zeiten`
+--
+
+CREATE TABLE IF NOT EXISTS `zeiten` (
+  `block_nr` int(11) NOT NULL AUTO_INCREMENT,
+  `von` time NOT NULL,
+  `bis` time NOT NULL,
+  PRIMARY KEY (`block_nr`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+
+--
+-- Dumping data for table `zeiten`
+--
+
+INSERT INTO `zeiten` (`block_nr`, `von`, `bis`) VALUES
+(1, '08:00:00', '09:30:00'),
+(2, '09:45:00', '11:15:00'),
+(3, '11:30:00', '13:00:00'),
+(4, '13:30:00', '15:00:00'),
+(5, '15:15:00', '16:45:00'),
+(6, '17:00:00', '18:30:00'),
+(7, '18:45:00', '20:15:00'),
+(8, '20:30:00', '22:00:00');
