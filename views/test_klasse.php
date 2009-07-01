@@ -1,20 +1,14 @@
 <?php
 
-$s1 = new Klasse();
-$s1 -> setName("BIT07/1C");
-$s1 -> setId(1);
-$name = $s1 -> getName();
-$id = $s1 -> getId();
+$tester = new stundenplan;
 
-//Ausgabe Name
-echo $name;
-echo '<br>';
+$ausgabe = $tester -> get_Blocks();
 
-//Ausgabe ID
-echo $id;
+//Syntax: get_LFR($klasse_id, $datum, $block_nr)
+$ausgabe2 = $tester -> get_LFR(3, '2009-07-01', 2);
 
-$tester = stundenplan::get_BlockT();
+html::showAll($ausgabe2);
 
-html::showAll($tester);
+html::showAll($ausgabe);
 
 ?>

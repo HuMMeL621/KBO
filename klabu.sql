@@ -3,14 +3,14 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jun 30, 2009 at 12:53 
--- Server version: 5.1.33
--- PHP Version: 5.2.9
+-- Erstellungszeit: 01. Juli 2009 um 10:01
+-- Server Version: 5.1.33
+-- PHP-Version: 5.2.9
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 --
--- Database: `klabu`
+-- Datenbank: `klabu`
 --
 CREATE DATABASE `klabu` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `klabu`;
@@ -18,7 +18,7 @@ USE `klabu`;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `anwesenheit`
+-- Tabellenstruktur für Tabelle `anwesenheit`
 --
 
 CREATE TABLE IF NOT EXISTS `anwesenheit` (
@@ -30,14 +30,14 @@ CREATE TABLE IF NOT EXISTS `anwesenheit` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `anwesenheit`
+-- Daten für Tabelle `anwesenheit`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `eintragungen`
+-- Tabellenstruktur für Tabelle `eintragungen`
 --
 
 CREATE TABLE IF NOT EXISTS `eintragungen` (
@@ -53,14 +53,14 @@ CREATE TABLE IF NOT EXISTS `eintragungen` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `eintragungen`
+-- Daten für Tabelle `eintragungen`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `fach`
+-- Tabellenstruktur für Tabelle `fach`
 --
 
 CREATE TABLE IF NOT EXISTS `fach` (
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `fach` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
--- Dumping data for table `fach`
+-- Daten für Tabelle `fach`
 --
 
 INSERT INTO `fach` (`fach_id`, `name`) VALUES
@@ -84,7 +84,7 @@ INSERT INTO `fach` (`fach_id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `klasse`
+-- Tabellenstruktur für Tabelle `klasse`
 --
 
 CREATE TABLE IF NOT EXISTS `klasse` (
@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `klasse` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
 --
--- Dumping data for table `klasse`
+-- Daten für Tabelle `klasse`
 --
 
 INSERT INTO `klasse` (`klasse_id`, `name`) VALUES
@@ -114,7 +114,7 @@ INSERT INTO `klasse` (`klasse_id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `lehrer`
+-- Tabellenstruktur für Tabelle `lehrer`
 --
 
 CREATE TABLE IF NOT EXISTS `lehrer` (
@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `lehrer` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
--- Dumping data for table `lehrer`
+-- Daten für Tabelle `lehrer`
 --
 
 INSERT INTO `lehrer` (`lehrer_id`, `vorname`, `nachname`, `level`) VALUES
@@ -135,7 +135,7 @@ INSERT INTO `lehrer` (`lehrer_id`, `vorname`, `nachname`, `level`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `lehrer_2_klasse`
+-- Tabellenstruktur für Tabelle `lehrer_2_klasse`
 --
 
 CREATE TABLE IF NOT EXISTS `lehrer_2_klasse` (
@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `lehrer_2_klasse` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `lehrer_2_klasse`
+-- Daten für Tabelle `lehrer_2_klasse`
 --
 
 INSERT INTO `lehrer_2_klasse` (`lehrer_id`, `klasse_id`) VALUES
@@ -154,7 +154,7 @@ INSERT INTO `lehrer_2_klasse` (`lehrer_id`, `klasse_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `noten`
+-- Tabellenstruktur für Tabelle `noten`
 --
 
 CREATE TABLE IF NOT EXISTS `noten` (
@@ -170,7 +170,7 @@ CREATE TABLE IF NOT EXISTS `noten` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
--- Dumping data for table `noten`
+-- Daten für Tabelle `noten`
 --
 
 INSERT INTO `noten` (`schueler_id`, `fach_id`, `typ`, `datum`, `lehrer_id`, `klasse_id`, `note`, `note_id`) VALUES
@@ -179,7 +179,7 @@ INSERT INTO `noten` (`schueler_id`, `fach_id`, `typ`, `datum`, `lehrer_id`, `kla
 -- --------------------------------------------------------
 
 --
--- Table structure for table `raume`
+-- Tabellenstruktur für Tabelle `raume`
 --
 
 CREATE TABLE IF NOT EXISTS `raume` (
@@ -189,14 +189,14 @@ CREATE TABLE IF NOT EXISTS `raume` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `raume`
+-- Daten für Tabelle `raume`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `schueler`
+-- Tabellenstruktur für Tabelle `schueler`
 --
 
 CREATE TABLE IF NOT EXISTS `schueler` (
@@ -209,14 +209,14 @@ CREATE TABLE IF NOT EXISTS `schueler` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `schueler`
+-- Daten für Tabelle `schueler`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `wochenplan`
+-- Tabellenstruktur für Tabelle `wochenplan`
 --
 
 CREATE TABLE IF NOT EXISTS `wochenplan` (
@@ -226,18 +226,22 @@ CREATE TABLE IF NOT EXISTS `wochenplan` (
   `vertretung_id` int(11) NOT NULL,
   `klasse_id` int(11) NOT NULL,
   `fach_id` int(11) NOT NULL,
-  `block_nr` int(11) NOT NULL
+  `block_nr` int(11) NOT NULL,
+  `locked` int(11) NOT NULL COMMENT '0)unlocked 1)Locked',
+  PRIMARY KEY (`datum`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `wochenplan`
+-- Daten für Tabelle `wochenplan`
 --
 
+INSERT INTO `wochenplan` (`datum`, `raum_id`, `lehrer_id`, `vertretung_id`, `klasse_id`, `fach_id`, `block_nr`, `locked`) VALUES
+('2009-07-01', 3, 3, 3, 3, 3, 2, 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `zeiten`
+-- Tabellenstruktur für Tabelle `zeiten`
 --
 
 CREATE TABLE IF NOT EXISTS `zeiten` (
@@ -248,7 +252,7 @@ CREATE TABLE IF NOT EXISTS `zeiten` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
--- Dumping data for table `zeiten`
+-- Daten für Tabelle `zeiten`
 --
 
 INSERT INTO `zeiten` (`block_nr`, `von`, `bis`) VALUES

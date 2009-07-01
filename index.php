@@ -1,5 +1,6 @@
 <?php
 
+include ('includings/class.db.php');
 include ('includings/class.html.php');
 include ('includings/class.klasse.php');
 include ('includings/class.schueler.php');
