@@ -45,26 +45,52 @@ class rights {
         {
             case ADMIN:
                 {
-                    
+                    $rights = explode(",", ADMIN_RIGHTS);
+                    echo '<pre>';
+                    print_r($rights);
+                    echo '</pre>';
+                    break;
                 }
                 
             case FBL:
                 {
-
+                    $rights = explode(",", FBL_RIGHTS);
+                    echo '<pre>';
+                    print_r($rights);
+                    echo '</pre>';
+                    break;
                 }
 
             case LEHRER:
                 {
-
+                    $rights = explode(",", LEHRER_RIGHTS);
+                    echo '<pre>';
+                    print_r($rights);
+                    echo '</pre>';
+                    break;
                 }
 
             case SCHUELER:
                 {
-
+                    $rights = explode(",", SCHUELER_RIGHTS);
+                    echo '<pre>';
+                    print_r($rights);
+                    echo '</pre>';
+                    break;
                 }
 
+            case SEKRETAERIN:
+                {
+                    $rights = explode(",", SEKRETAERIN_RIGHTS);
+                    echo '<pre>';
+                    print_r($rights);
+                    echo '</pre>';
+                    break;
+                }
+                
             default:
                 {
+                    break;
                     // :) Reality is for people with no imagination!
                 }
         }

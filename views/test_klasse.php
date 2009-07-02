@@ -11,4 +11,16 @@ html::showAll($ausgabe2);
 
 html::showAll($ausgabe);
 
+$ausgabe3 = new rights;
+$ausgabe3 -> getRights(ADMIN);
+echo '<br>';
+$ausgabe3 -> getRights(FBL);
+echo '<br>';
+$ausgabe3 -> getRights(LEHRER);
+echo '<br>';
+$ausgabe3 -> getRights(SCHUELER);
+echo '<br>';
+$ausgabe3 -> getRights(SEKRETAERIN);
+echo '<br>';
+
 ?>
