@@ -1,5 +1,16 @@
 <?php
+
 class rights {
+
+    /**
+     * Erster Paramter ist admin für Admin
+     *                     lehrer für Lehrer
+     *                     schueler für Schueler
+     *                 und sekretärin für Sekretärin
+     *
+     * Der Zweite Paramteter gibt an welches level die Person hat.
+     * 0 ist das default-level.
+     */
 
     /**********UNTERTEILUNGEN******************************************************/
     /**/                                                                        /**/
@@ -27,11 +38,10 @@ class rights {
     /**/                                                                        /**/
     /******************************************************************************/
 
-    public function getRights() {
 
-        
+public function getRights() {
 
-    }
+    
 
 }
 
