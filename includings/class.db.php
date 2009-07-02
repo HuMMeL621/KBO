@@ -72,9 +72,9 @@ class db
         
     }
 
-    public function resolve_Lehrer($ID_INT=0) {
+    public function resolve_Id($FROM='', $ID='', $ID_INT=0) {
 
-        $sql = "SELECT vorname, nachname FROM lehrer WHERE lehrer_id =".$ID_INT;
+        $sql = "SELECT name FROM ".$FROM." WHERE ".$ID."=".$ID_INT;
 
         $result = mysql_query($sql);
 
@@ -97,7 +97,7 @@ class db
 
          while($data = mysql_fetch_assoc($result)) {
 
-         $ausgabe = $data['vorname']." ".$data['nachname'];
+         $ausgabe = $data['name'];
 
          return $ausgabe;
 
