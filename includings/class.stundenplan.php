@@ -4,7 +4,7 @@ class stundenplan
 {
 
         /**
-         * Methode um die Block-Zeiten aus der Datenbank zu lesen
+         * Methode um die Block-Zeiten aus der Datenbank zu lesen.
          * Diese werden als über ein Array zurück gegeben
          */
 
@@ -59,10 +59,9 @@ class stundenplan
 
 
         /**
-         * Auslesen der Lehrer, des Fachs und des Raums durch
-         * angabe von klasse_id, Datum und der Blocknummer
+         * Durch die Angabe der Klasse und des Datums,
+         * werden alle Fächer der Klasse dargestellt
          */
-
 
         public function get_Tagesplan($klasse_id=0, $datum = "") {
 
@@ -131,6 +130,11 @@ class stundenplan
             $klabu_db->disconnect();    //Verbindung trennen
 
         }
+
+        /**
+         * Auslesen der Lehrer, des Fachs und des Raums durch
+         * angabe von klasse_id, Datum und der Blocknummer
+         */
 
         public function get_LFR($klasse_id=0, $datum = "", $block_nr=0) {
 
