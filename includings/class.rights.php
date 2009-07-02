@@ -39,9 +39,37 @@ class rights {
     /******************************************************************************/
 
 
-public function getRights() {
+    public function getRights($typ) {
 
-    
+        switch($typ)
+        {
+            case ADMIN:
+                {
+                    
+                }
+                
+            case FBL:
+                {
+
+                }
+
+            case LEHRER:
+                {
+
+                }
+
+            case SCHUELER:
+                {
+
+                }
+
+            default:
+                {
+                    // :) Reality is for people with no imagination!
+                }
+        }
+
+    }
 
 }
 

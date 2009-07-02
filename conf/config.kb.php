@@ -30,9 +30,9 @@ die ("Konnte die Datenbank nicht verwenden! Error: ".mysql_error());
 /**/                                  /**/
 /****************************************/
 
-define ('ADMIN', "ADMIN,FBL,LEHRER,SCHUELER");
-define ('FBL', "FBL,LEHRER,SCHUELER");
-define ('LEHRER', "LEHRER,SCHUELER");
-define ('SCHUELER', "SCHUELER");
+define ('ADMIN_RIGHTS', "ADMIN,FBL,LEHRER,SCHUELER");
+define ('FBL_RIGHTS', "FBL,LEHRER,SCHUELER");
+define ('LEHRER_RIGHTS', "LEHRER,SCHUELER");
+define ('SCHUELER_RIGHTS', "SCHUELER");
 
 ?>
