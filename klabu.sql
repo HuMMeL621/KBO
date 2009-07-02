@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 01. Juli 2009 um 10:01
+-- Erstellungszeit: 02. Juli 2009 um 12:57
 -- Server Version: 5.1.33
 -- PHP-Version: 5.2.9
 
@@ -56,6 +56,12 @@ CREATE TABLE IF NOT EXISTS `eintragungen` (
 -- Daten für Tabelle `eintragungen`
 --
 
+INSERT INTO `eintragungen` (`datum`, `klasse_id`, `fach_id`, `block_nr`, `lehrer_id`, `inhalt`, `hausaufgaben`, `signature_id`) VALUES
+('2009-06-03', 4, 1, 1, 1, '', '', 0),
+('2009-10-03', 6, 2, 3, 2, '', '', 0),
+('2009-04-11', 8, 6, 3, 2, '', '', 0),
+('2009-07-08', 5, 1, 3, 4, '', '', 0),
+('2009-07-02', 2, 6, 4, 5, '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -91,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `klasse` (
   `klasse_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(5) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`klasse_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
 
 --
 -- Daten für Tabelle `klasse`
@@ -121,16 +127,21 @@ CREATE TABLE IF NOT EXISTS `lehrer` (
   `lehrer_id` int(11) NOT NULL AUTO_INCREMENT,
   `vorname` varchar(45) NOT NULL,
   `nachname` varchar(45) NOT NULL,
-  `level` int(11) NOT NULL,
+  `level` int(11) NOT NULL COMMENT '0) Lehrer 1)FBL',
   PRIMARY KEY (`lehrer_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Daten für Tabelle `lehrer`
 --
 
 INSERT INTO `lehrer` (`lehrer_id`, `vorname`, `nachname`, `level`) VALUES
-(1, 'Vivian', 'Uibel', 1);
+(1, 'Vivian', 'Uibel', 0),
+(2, 'Stefan', 'Voigt', 1),
+(3, 'Rolf', 'Haeckel', 0),
+(4, 'Brita', 'Lehmann', 1),
+(5, 'Anne', 'Jappel', 1),
+(0, 'NULL', 'NULL', 0);
 
 -- --------------------------------------------------------
 
@@ -186,12 +197,19 @@ CREATE TABLE IF NOT EXISTS `raume` (
   `raum_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`raum_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Daten für Tabelle `raume`
 --
 
+INSERT INTO `raume` (`raum_id`, `name`) VALUES
+(3, '1.19'),
+(9, '0.13'),
+(8, '2.13'),
+(7, '0.12'),
+(6, '0.11'),
+(11, '1.18');
 
 -- --------------------------------------------------------
 
@@ -236,7 +254,7 @@ CREATE TABLE IF NOT EXISTS `wochenplan` (
 --
 
 INSERT INTO `wochenplan` (`datum`, `raum_id`, `lehrer_id`, `vertretung_id`, `klasse_id`, `fach_id`, `block_nr`, `locked`) VALUES
-('2009-07-01', 3, 3, 3, 3, 3, 2, 0);
+('2009-07-01', 3, 3, 0, 3, 3, 2, 0);
 
 -- --------------------------------------------------------
 

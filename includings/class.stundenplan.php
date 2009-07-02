@@ -63,7 +63,7 @@ class stundenplan
          * angabe von klasse_id, Datum und der Blocknummer
          */
 
-        public function get_LFR($klasse_id=0, $datum = "", $block_id=0) {
+        public function get_LFR($klasse_id=0, $datum = "", $block_nr=0) {
 
 
             //Instanz der Klasse db zur Verbindung zur Datenbank
@@ -72,9 +72,9 @@ class stundenplan
 
             //sql-Befehl zur ausgabe der Zeiten und des Blocks
             $sql = "SELECT block_nr, datum, klasse_id, 
-                    raum_id, lehrer_id, fach_id FROM wochenplan
+                    raum_id, lehrer_id, vertretung_id, fach_id FROM wochenplan
                     WHERE klasse_id = ".$klasse_id." "."
-                    AND datum = '".$datum."' AND block_nr = ".$block_id;
+                    AND datum = '".$datum."' AND block_nr = ".$block_nr;
             
             $result = mysql_query($sql);
 
@@ -107,12 +107,16 @@ class stundenplan
 
             while($data = mysql_fetch_assoc($result)) {
 
-                $dummy[]=$data['block_nr'];
-                $dummy[]=$data['datum'];
-                $dummy[]=$klabu_db->resolve_Id(klasse, klasse_id, $data['klasse_id']);
-                $dummy[]=$klabu_db->resolve_Id(raume, raum_id, $data['raum_id']);
-                $dummy[]=$klabu_db->resolve_Lehrer($data['raum_id']);
-                $dummy[]=$klabu_db->resolve_Id(fach, fach_id, $data['fach_id']);
+                $dummy['block_nr']=$data['block_nr'];
+                $dummy['datum']=$data['datum'];
+                $dummy['klasse']=$klabu_db->resolve_Id(klasse, klasse_id, $data['klasse_id']);
+                $dummy['raum']=$klabu_db->resolve_Id(raume, raum_id, $data['raum_id']);
+                $dummy['lehrer']=$klabu_db->resolve_Lehrer($data['lehrer_id']);
+                $dummy['fach']=$klabu_db->resolve_Id(fach, fach_id, $data['fach_id']);
+
+                //Vertretung nur Anzeigen falls eine Vertretung gewählt wurde
+                if($data['vertretung_id']!=0) {
+                $dummy['vertretung']=$klabu_db->resolve_Lehrer($data['vertretung_id']); }
                 
                 $ausgabe[] = $dummy;
 
