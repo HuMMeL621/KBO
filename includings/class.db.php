@@ -61,9 +61,9 @@ class db
 
          $ausgabe = $data['name'];
 
-         return $ausgabe;
-
          }
+
+        return $ausgabe;
 
         mysql_free_result($result); //Aufräumen
         $this->disconnect();    //Verbindung trennen
@@ -97,9 +97,10 @@ class db
 
          $ausgabe = $data['vorname']." ".$data['nachname'];
 
-         return $ausgabe;
-
+         
          }
+
+        return $ausgabe;
 
         mysql_free_result($result); //Aufr?umen
         $this->disconnect();    //Verbindung trennen

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 02. Juli 2009 um 12:57
+-- Erstellungszeit: 02. Juli 2009 um 17:15
 -- Server Version: 5.1.33
 -- PHP-Version: 5.2.9
 
@@ -238,6 +238,7 @@ CREATE TABLE IF NOT EXISTS `schueler` (
 --
 
 CREATE TABLE IF NOT EXISTS `wochenplan` (
+  `wochenplan_id` int(11) NOT NULL AUTO_INCREMENT,
   `datum` date NOT NULL,
   `raum_id` int(11) NOT NULL,
   `lehrer_id` int(11) NOT NULL,
@@ -246,15 +247,16 @@ CREATE TABLE IF NOT EXISTS `wochenplan` (
   `fach_id` int(11) NOT NULL,
   `block_nr` int(11) NOT NULL,
   `locked` int(11) NOT NULL COMMENT '0)unlocked 1)Locked',
-  PRIMARY KEY (`datum`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`wochenplan_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Daten für Tabelle `wochenplan`
 --
 
-INSERT INTO `wochenplan` (`datum`, `raum_id`, `lehrer_id`, `vertretung_id`, `klasse_id`, `fach_id`, `block_nr`, `locked`) VALUES
-('2009-07-01', 3, 3, 0, 3, 3, 2, 0);
+INSERT INTO `wochenplan` (`wochenplan_id`, `datum`, `raum_id`, `lehrer_id`, `vertretung_id`, `klasse_id`, `fach_id`, `block_nr`, `locked`) VALUES
+(1, '2009-07-01', 3, 1, 3, 3, 3, 2, 0),
+(2, '2009-07-01', 3, 1, 0, 3, 2, 3, 0);
 
 -- --------------------------------------------------------
 
