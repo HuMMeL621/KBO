@@ -3,19 +3,17 @@
 class db
 {
 
-     /**
-      * Klasse zur Verwaltung der Datenbank
-      */
+    /**************************************************/
+    /**/                                            /**/
+    /**/    //Klasse zur Verwaltung der Datenbank   /**/
+    /**/                                            /**/
+    /**************************************************/
 
-    private $db_host = 'localhost';
-    private $db_name = 'klabu';
-    private $db_user = 'root';
-    private $db_passwd = '';
 
     //Verbindungsaufbau beim Laden der Klasse
     public function __construct() {
         
-        $conn = mysql_connect($this->db_host, $this->db_user, $this->db_passwd);
+        $conn = mysql_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PASS);
 
         //Überprüfung ob Verbindung erfolgreich war
         if(!$conn) {
@@ -24,7 +22,7 @@ class db
         }
 
         //Verbindung zur Datenbank
-        if(!mysql_select_db($this->db_name)) {
+        if(!mysql_select_db(MYSQL_DATABASE)) {
         echo "Keine Verbindung zur Datenbank ".mysql_error()." möglich!";
         exit;
         }
@@ -72,14 +70,14 @@ class db
         
     }
 
-    public function resolve_Id($FROM='', $ID='', $ID_INT=0) {
+    public function resolve_Lehrer($ID_INT=0) {
 
-        $sql = "SELECT name FROM ".$FROM." WHERE ".$ID."=".$ID_INT;
+        $sql = "SELECT vorname, nachname FROM lehrer WHERE lehrer_id =".$ID_INT;
 
         $result = mysql_query($sql);
 
         /*
-         * Fehlerbehandlung falls die Anfrage fehlt schlägt
+         * Fehlerbehandlung falls die Anfrage fehlt schl?gt
          */
         if(!result) {
             echo "Die Anfrage ".$sql.
@@ -91,19 +89,19 @@ class db
          */
 
         if(mysql_num_rows($result)==0) {
-            echo "Error: Anfrage wurde nicht durchgeführt,
+            echo "Error: Anfrage wurde nicht durchgef?hrt,
                   da keine Zeilen zum ausgeben gefunden wurden";
         }
 
          while($data = mysql_fetch_assoc($result)) {
 
-         $ausgabe = $data['name'];
+         $ausgabe = $data['vorname']." ".$data['nachname'];
 
          return $ausgabe;
 
          }
 
-        mysql_free_result($result); //Aufräumen
+        mysql_free_result($result); //Aufr?umen
         $this->disconnect();    //Verbindung trennen
 
     }
