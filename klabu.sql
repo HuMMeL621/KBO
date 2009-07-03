@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 03. Juli 2009 um 11:05
+-- Erstellungszeit: 03. Juli 2009 um 12:18
 -- Server Version: 5.1.33
 -- PHP-Version: 5.2.9
 
@@ -128,23 +128,25 @@ INSERT INTO `klasse` (`klasse_id`, `name`) VALUES
 
 CREATE TABLE IF NOT EXISTS `lehrer` (
   `lehrer_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
   `vorname` varchar(45) NOT NULL,
   `nachname` varchar(45) NOT NULL,
   `level` int(11) NOT NULL COMMENT '0) Lehrer 1)FBL',
-  PRIMARY KEY (`lehrer_id`)
+  PRIMARY KEY (`lehrer_id`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Daten für Tabelle `lehrer`
 --
 
-INSERT INTO `lehrer` (`lehrer_id`, `vorname`, `nachname`, `level`) VALUES
-(1, 'Vivian', 'Uibel', 0),
-(2, 'Stefan', 'Voigt', 1),
-(3, 'Rolf', 'Haeckel', 0),
-(4, 'Brita', 'Lehmann', 1),
-(5, 'Anne', 'Jappel', 1),
-(0, 'NULL', 'NULL', 0);
+INSERT INTO `lehrer` (`lehrer_id`, `user_id`, `vorname`, `nachname`, `level`) VALUES
+(1, 0, 'Vivian', 'Uibel', 0),
+(2, 0, 'Stefan', 'Voigt', 1),
+(3, 0, 'Rolf', 'Haeckel', 0),
+(4, 0, 'Brita', 'Lehmann', 1),
+(5, 0, 'Anne', 'Jappel', 1),
+(0, 0, 'NULL', 'NULL', 0);
 
 -- --------------------------------------------------------
 
@@ -222,15 +224,36 @@ INSERT INTO `raume` (`raum_id`, `name`) VALUES
 
 CREATE TABLE IF NOT EXISTS `schueler` (
   `schueler_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
   `vorname` varchar(45) NOT NULL,
   `nachname` varchar(45) NOT NULL,
   `klasse_id` int(11) NOT NULL,
-  `passwd` varchar(45) NOT NULL,
-  PRIMARY KEY (`schueler_id`)
+  PRIMARY KEY (`schueler_id`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
 -- Daten für Tabelle `schueler`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `user`
+--
+
+CREATE TABLE IF NOT EXISTS `user` (
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `login` varchar(45) NOT NULL COMMENT 'Login-Name',
+  `passwd` varchar(45) NOT NULL COMMENT 'Password',
+  `typ` enum('schueler','lehrer','fbl','admin') NOT NULL,
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `login` (`login`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Daten für Tabelle `user`
 --
 
 
