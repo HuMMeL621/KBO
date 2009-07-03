@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 02. Juli 2009 um 17:15
+-- Erstellungszeit: 03. Juli 2009 um 11:05
 -- Server Version: 5.1.33
 -- PHP-Version: 5.2.9
 
@@ -22,12 +22,14 @@ USE `klabu`;
 --
 
 CREATE TABLE IF NOT EXISTS `anwesenheit` (
+  `anwesenheit_id` int(11) NOT NULL AUTO_INCREMENT,
   `schueler_id` int(11) NOT NULL,
   `datum` date NOT NULL,
   `klasse_id` int(11) NOT NULL,
   `status` varchar(45) NOT NULL,
-  `verspaetung` time NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `verspaetung` time NOT NULL,
+  PRIMARY KEY (`anwesenheit_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
 -- Daten für Tabelle `anwesenheit`
@@ -41,6 +43,7 @@ CREATE TABLE IF NOT EXISTS `anwesenheit` (
 --
 
 CREATE TABLE IF NOT EXISTS `eintragungen` (
+  `eintragungen_id` int(11) NOT NULL AUTO_INCREMENT,
   `datum` date NOT NULL,
   `klasse_id` int(11) NOT NULL,
   `fach_id` int(11) NOT NULL,
@@ -49,19 +52,19 @@ CREATE TABLE IF NOT EXISTS `eintragungen` (
   `inhalt` varchar(45) NOT NULL,
   `hausaufgaben` varchar(45) NOT NULL,
   `signature_id` int(11) NOT NULL COMMENT 'Signatur vom eintragenden Lehrer',
-  PRIMARY KEY (`datum`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`eintragungen_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Daten für Tabelle `eintragungen`
 --
 
-INSERT INTO `eintragungen` (`datum`, `klasse_id`, `fach_id`, `block_nr`, `lehrer_id`, `inhalt`, `hausaufgaben`, `signature_id`) VALUES
-('2009-06-03', 4, 1, 1, 1, '', '', 0),
-('2009-10-03', 6, 2, 3, 2, '', '', 0),
-('2009-04-11', 8, 6, 3, 2, '', '', 0),
-('2009-07-08', 5, 1, 3, 4, '', '', 0),
-('2009-07-02', 2, 6, 4, 5, '', '', 0);
+INSERT INTO `eintragungen` (`eintragungen_id`, `datum`, `klasse_id`, `fach_id`, `block_nr`, `lehrer_id`, `inhalt`, `hausaufgaben`, `signature_id`) VALUES
+(1, '2009-06-03', 4, 1, 1, 1, '', '', 0),
+(2, '2009-10-03', 6, 2, 3, 2, '', '', 0),
+(3, '2009-04-11', 8, 6, 3, 2, '', '', 0),
+(4, '2009-07-08', 5, 1, 3, 4, '', '', 0),
+(5, '2009-07-02', 2, 6, 4, 5, '', '', 0);
 
 -- --------------------------------------------------------
 
