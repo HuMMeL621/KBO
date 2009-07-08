@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 03. Juli 2009 um 12:18
+-- Erstellungszeit: 08. Juli 2009 um 11:37
 -- Server Version: 5.1.33
 -- PHP-Version: 5.2.9
 
@@ -99,6 +99,7 @@ INSERT INTO `fach` (`fach_id`, `name`) VALUES
 CREATE TABLE IF NOT EXISTS `klasse` (
   `klasse_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(5) CHARACTER SET utf8 NOT NULL,
+  `AKTIV` enum('TRUE','FALSE') NOT NULL,
   PRIMARY KEY (`klasse_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
 
@@ -106,19 +107,19 @@ CREATE TABLE IF NOT EXISTS `klasse` (
 -- Daten für Tabelle `klasse`
 --
 
-INSERT INTO `klasse` (`klasse_id`, `name`) VALUES
-(1, 'BIT06'),
-(2, 'BIT07'),
-(3, 'BIT08'),
-(4, 'HOG06'),
-(5, 'HOG07'),
-(6, 'HOG08'),
-(7, 'KOS06'),
-(8, 'KOS07'),
-(9, 'KOS08'),
-(10, 'BLA06'),
-(11, 'BLA07'),
-(12, 'BLA08');
+INSERT INTO `klasse` (`klasse_id`, `name`, `AKTIV`) VALUES
+(1, 'BIT06', 'TRUE'),
+(2, 'BIT07', 'TRUE'),
+(3, 'BIT08', 'TRUE'),
+(4, 'HOG06', 'TRUE'),
+(5, 'HOG07', 'TRUE'),
+(6, 'HOG08', 'TRUE'),
+(7, 'KOS06', 'TRUE'),
+(8, 'KOS07', 'TRUE'),
+(9, 'KOS08', 'TRUE'),
+(10, 'BLA06', 'TRUE'),
+(11, 'BLA07', 'TRUE'),
+(12, 'BLA08', 'TRUE');
 
 -- --------------------------------------------------------
 
