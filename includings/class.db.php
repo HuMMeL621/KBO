@@ -1,38 +1,26 @@
 <?php
 
-class db
-{
+abstract class db{
 
-    /**************************************************/
-    /**/                                            /**/
-    /**/    //Klasse zur Verwaltung der Datenbank   /**/
-    /**/                                            /**/
-    /**************************************************/
-
-
-    //Verbindungsaufbau beim Laden der Klasse
     public function __construct() {
-        
-        $conn = mysql_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PASS);
 
-        //Überprüfung ob Verbindung erfolgreich war
-        if(!$conn) {
-        echo "Keine Verbindung zum Server ".mysql_error()." möglich!";
-        exit;
-        }
+            // Verbindung zum Datenbankserver aufbauen
+            $link = mysql_connect ( DB_SERVER, DB_USER, DB_PASSWD );
+            if (! $link) {
 
-        //Verbindung zur Datenbank
-        if(!mysql_select_db(MYSQL_DATABASE)) {
-        echo "Keine Verbindung zur Datenbank ".mysql_error()." möglich!";
-        exit;
-        }
-        
-    }
+                    throw new MysqlException ( );
 
-    //Beenden der Verbindung beim schließen der Klasse
-    public function  __destruct() {
-        mysql_close();
-    }
+            }
+
+            // Datenbank ausw?hlen
+            $db = mysql_select_db ( DB_NAME );
+            if (! $db) {
+
+                    throw new MysqlException ( );
+
+            }
+
+    }		
 
     public function resolve_Id($FROM='', $ID='', $ID_INT=0) {
         
@@ -41,7 +29,7 @@ class db
         $result = mysql_query($sql);
 
         /*
-         * Fehlerbehandlung falls die Anfrage fehlt schlägt
+         * Fehlerbehandlung falls die Anfrage fehlt schlï¿½gt
          */
         if(!result) {
             echo "Die Anfrage ".$sql.
@@ -53,7 +41,7 @@ class db
          */
 
         if(mysql_num_rows($result)==0) {
-            echo "Error: Anfrage wurde nicht durchgeführt,
+            echo "Error: Anfrage wurde nicht durchgefï¿½hrt,
                   da keine Zeilen zum ausgeben gefunden wurden";
         }
 
@@ -65,7 +53,7 @@ class db
 
         return $ausgabe;
 
-        mysql_free_result($result); //Aufräumen
+        mysql_free_result($result); //Aufrï¿½umen
         $this->disconnect();    //Verbindung trennen
         
     }

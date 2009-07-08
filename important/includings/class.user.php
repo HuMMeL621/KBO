@@ -1,6 +1,6 @@
 <?php
 
-class User extends Db implements Dmlable{
+class User extends Db implements Dmlable {
 	
 	//Primärschlüssel
 	private $user_id;

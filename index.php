@@ -18,6 +18,8 @@ $_SESSION['user']['user_id']    //ID des eingeloggten Users
 /**********************Include-Files***********************/
 /**/                                                    /**/
 /**/   include ('conf/config.kb.php');                  /**/
+/**/   include ('includings/dmlabel.php'); /**/
+/**/   include ('includings/class.mysqlexception.php'); /**/
 /**/   include ('includings/class.rights.php');         /**/
 /**/   include ('includings/class.db.php');             /**/
 /**/   include ('includings/class.html.php');           /**/
