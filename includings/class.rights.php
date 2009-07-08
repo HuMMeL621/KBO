@@ -39,6 +39,7 @@ class rights {
     /******************************************************************************/
 
 
+    //Ausgabe der Rechte als Array =)
     public function getRights($typ) {
 
         switch($typ)
@@ -46,35 +47,30 @@ class rights {
             case ADMIN:
                 {
                     $rights = explode(",", ADMIN_RIGHTS);
-                    html::showAll($rights);
                     break;
                 }
                 
             case FBL:
                 {
                     $rights = explode(",", FBL_RIGHTS);
-                    html::showAll($rights);
                     break;
                 }
 
             case LEHRER:
                 {
                     $rights = explode(",", LEHRER_RIGHTS);
-                    html::showAll($rights);
                     break;
                 }
 
             case SCHUELER:
                 {
                     $rights = explode(",", SCHUELER_RIGHTS);
-                    html::showAll($rights);
                     break;
                 }
 
             case SEKRETAERIN:
                 {
                     $rights = explode(",", SEKRETAERIN_RIGHTS);
-                    html::showAll($rights);
                     break;
                 }
                 
