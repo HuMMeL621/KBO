@@ -1,7 +1,6 @@
 <?php
 
-class stundenplan
-{
+class stundenplan extends Db implements Dmlable {
 
         /**
          * Methode um die Block-Zeiten aus der Datenbank zu lesen.
@@ -9,9 +8,6 @@ class stundenplan
          */
 
         public function get_Blocks() {
-
-            //Instanz der Klasse db zur Verbindung zur Datenbank
-            $klabu_db = new db;
 
 
             //sql-Befehl zur ausgabe der Zeiten und des Blocks
@@ -66,10 +62,6 @@ class stundenplan
         public function get_Tagesplan($klasse_id=0, $datum = "") {
 
 
-            //Instanz der Klasse db zur Verbindung zur Datenbank
-            $klabu_db = new db;
-
-
             //sql-Befehl zur ausgabe der Zeiten und des Blocks
             $sql = "SELECT block_nr, datum, klasse_id,
                     raum_id, lehrer_id, vertretung_id, fach_id, block_nr
@@ -109,15 +101,15 @@ class stundenplan
             while($data = mysql_fetch_assoc($result)) {
 
                 $dummy['datum']=$data['datum'];
-                $dummy['klasse']=$klabu_db->resolve_Id(klasse, klasse_id, $data['klasse_id']);
-                $dummy['raum']=$klabu_db->resolve_Id(raume, raum_id, $data['raum_id']);
-                $dummy['lehrer']=$klabu_db->resolve_Lehrer($data['lehrer_id']);
-                $dummy['fach']=$klabu_db->resolve_Id(fach, fach_id, $data['fach_id']);
+                $dummy['klasse']=db::resolve_Id(klasse, klasse_id, $data['klasse_id']);
+                $dummy['raum']=db::resolve_Id(raume, raum_id, $data['raum_id']);
+                $dummy['lehrer']=db::resolve_Lehrer($data['lehrer_id']);
+                $dummy['fach']=db::resolve_Id(fach, fach_id, $data['fach_id']);
                 $dummy['block_nr']=$data['block_nr'];
 
                 //Vertretung nur Anzeigen falls eine Vertretung gewählt wurde
                 if($data['vertretung_id']!=0) {
-                $dummy['vertretung']=$klabu_db->resolve_Lehrer($data['vertretung_id']); }
+                $dummy['vertretung']=db::resolve_Lehrer($data['vertretung_id']); }
 
                 $ausgabe[] = $dummy;
 
@@ -202,6 +194,42 @@ class stundenplan
             $klabu_db->disconnect();    //Verbindung trennen
 
         }
+
+	public function save(){
+
+        //Not Needed
+
+	}
+
+	public function insert(){
+
+        //Not Needed
+
+	}
+
+	public function update(){
+
+        //Not Needed
+
+	}
+
+	public function delete($id){
+
+        //Not Needed
+
+	}
+
+	public function getAllAsArray($restriction = ''){
+
+        //Not Needed
+
+	}
+        
+	public function load($id){
+
+        //Not Needed
+
+	}
 
 }
 
