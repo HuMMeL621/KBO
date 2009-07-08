@@ -10,7 +10,9 @@ class Noten extends db implements Dmlable{
 	private $lehrer_id;
 	private $note;
 	private $datum;
-	
+
+        public $notens;
+
 	/*Name der Klasse
 	 *string
 	 *45 Zeichen erlaubt
@@ -255,20 +257,20 @@ class Noten extends db implements Dmlable{
 				throw new MysqlException();
 			}
 
-			$noten = array();
+			$notens = array();
 			while ($row = mysql_fetch_assoc($result)){
-                            $noten[]=$row['schueler_id'];
-                            $noten[]=$row['typ'];
-                            $noten[]=$row['fach_id'];
-                            $noten[]=$row['datum'];
-                            $noten[]=$row['note'];
+                            $notens[]=$row['schueler_id'];
+                            $notens[]=$row['typ'];
+                            $notens[]=$row['fach_id'];
+                            $notens[]=$row['datum'];
+                            $notens[]=$row['note'];
 			}
 		}
+                
 		catch(MysqlException $e){
 			Html::showAll($e);
 		}
 
-		return $noten;
 	}
 
 	public function load($id){
@@ -304,6 +306,15 @@ class Noten extends db implements Dmlable{
 		
 	}
 	
-	
+	public function loadNoten($fach_id=0, $schueler_id=0) {
+
+            $fach_noten=array();
+            foreach($notens as $noten) {
+                if ($noten['fach_id']==$fach_id) {
+                    $fach_noten[]=$noten;
+                }
+            }
+
+        }
 }		
 ?>

@@ -15,6 +15,8 @@ class schueler extends Db implements Dmlable {
 	private $nachname;
 	private $klasse_id;
 	private $passwd;
+
+        public $notens;
 	
 	/*
 	 * Name des Schulfachs
@@ -28,6 +30,8 @@ class schueler extends Db implements Dmlable {
 		catch (MysqlException $e) {
 			Html::showAll($e);
 	    }
+            //Noten alles Schueler werden übergeben
+            $notens = Noten::getAllAsObject();
 	}
 	/**
 	 * @return int
@@ -185,7 +189,6 @@ class schueler extends Db implements Dmlable {
 		}
 
 	}
-	
 
 }
 
