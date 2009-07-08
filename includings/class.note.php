@@ -1,6 +1,6 @@
 <?php
 
-class Note extends db implements Dmlable{
+class Noten extends db implements Dmlable{
 	
 	//Primärschlüssel
 	private $note_id;
@@ -200,7 +200,7 @@ class Note extends db implements Dmlable{
 					 ,klasse_id
 					 ,datum
 					 ,fach_id
-				FROM note
+				FROM klasse
 				WHERE 1=1";
 		$sql .=$restriction. ";";
 		
@@ -229,6 +229,48 @@ class Note extends db implements Dmlable{
 		
 		return $noten;
 	}
+
+        /*
+         * 		$this->setId($schueler_id);
+		$this->setTyp($typ);
+		$this->setFach_id($fach_id);
+		$this->setDatum($datum);
+		$this->setPunkte($punkte);
+         */
+
+	public function getAllAsObject($restriction = ''){
+		$sql="SELECT schueler_id
+                            ,typ
+                            ,fach_id
+                            ,datum
+                            ,note
+				FROM noten
+				WHERE 1=1";
+		$sql .=$restriction. ";";
+
+		try {
+			$result = mysql_query($sql);
+
+			if(!result) {
+				throw new MysqlException();
+			}
+
+			$noten = array();
+			while ($row = mysql_fetch_assoc($result)){
+                            $noten[]=$row['schueler_id'];
+                            $noten[]=$row['typ'];
+                            $noten[]=$row['fach_id'];
+                            $noten[]=$row['datum'];
+                            $noten[]=$row['note'];
+			}
+		}
+		catch(MysqlException $e){
+			Html::showAll($e);
+		}
+
+		return $noten;
+	}
+
 	public function load($id){
 	
 		$sql="SELECT *
