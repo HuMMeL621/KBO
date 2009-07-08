@@ -1,26 +1,13 @@
 <?php
 
-class schueler extends Db implements Dmlable { 
+class raeume extends Db implements Dmlable { 
 	
 	/*
 	 * PrimŠrschlŸssel 
 	 */
-	private $schueler_id;
-	/*
-	 * Name des Schulfachs
-	 * string
-	 * 45 Zeichen erlaubt
-	 */
-	private $vorname;
-	private $nachname;
+	private $lehrer_id;
 	private $klasse_id;
-	private $passwd;
 	
-	/*
-	 * Name des Schulfachs
-	 * string
-	 * 45 Zeichen erlaubt
-	 */
 	public function __construct() {
 		try {
 			parent::__construct();
@@ -33,41 +20,25 @@ class schueler extends Db implements Dmlable {
 	 * @return int
 	 */
 	public function getId() {
-		return $this->schueler_id;
+		return $this->lehrer_id;
 	}
-	public function setId($schueler_id) {
-		$this->schueler_id = $schueler_id;
+	public function setId($lehrer_id) {
+		$this->lehrer_id = $lehrer_id;
 	}
+	
 	/**
 	 * @return string
 	 */
-	public function getVorname() {
-		return $this->vorname;
+	public function getklasse_id() {
+		return $this->klasse_id;
 	}
     /**
-	 * @param tring $name
+	 * @param tring $klasse_id
 	 */
-	public function setVorname($vorname) {
-		$this->vorname = $vorname;
+	public function setKlasse_id($klasse_id) {
+		$this->klasse_id = $lasse_id;
 	}
 	
-	public function getNachname() {
-		return $this->nachname;
-	}
-
-	public function setNachname($nachname) {
-		$this->nachname = $nachname;
-	}
-	
-	public function getPasswd() {
-		return $this->passwd;
-	}
-
-	public function setPasswd($passwd) {
-		$this->passwd = $passwd;
-	}
-	
-
 	/*
 	 * speichert das aktuelle Objekt
 	 * falls kein PrimŠrschlŸssel existiert
@@ -76,7 +47,7 @@ class schueler extends Db implements Dmlable {
 	 */
 	public function save() {
 		
-		if (isset($this->schueler_id)) {
+		if (isset($this->lehrer_id)) {
 			$this->update();
 		} else {
 			$this->insert();
@@ -86,10 +57,10 @@ class schueler extends Db implements Dmlable {
 	
 	public function insert() {
 		
-		$sql = "INSERT INTO schueler 
-					   (schueler_id, name) 
+		$sql = "INSERT INTO lehrer 
+					   (lehrer_id, klasse_id) 
 				VALUES ('' 
-					   , '" .$this->vorname."');";
+					   , '" .$this->klasse_id."');";
 
 		try {
 			$success_insert = mysql_query($sql);
@@ -98,7 +69,7 @@ class schueler extends Db implements Dmlable {
 			}
 				
 			$insert_id = mysql_insert_id();
-			$this->fach_id = $insert_id;	
+			$this->lehrer_id = $insert_id;	
 		} catch (MysqlException $e) {
 			Html::showAll($e);
 		}
@@ -106,9 +77,9 @@ class schueler extends Db implements Dmlable {
 	
 	public function update() {
 		
-		$sql = "UPDATE fach 
-				   SET =vorname'" .$this->vorname. "' 
-				 WHERE schueler_id=" .$this->schueler_id. ";";
+		$sql = "UPDATE raum 
+				   SET =klasse_id'" .$this->klasse_id. "' 
+				 WHERE lehrer_id=" .$this->lehrer_id. ";";
 		
 		try {
 			$success_update = mysql_query($sql);
@@ -122,8 +93,8 @@ class schueler extends Db implements Dmlable {
 	}
 	
 	public function delete($id) {
-		$sql = "DELETE FROM fach 
-			     WHERE schueler_id=" .$id. ";";
+		$sql = "DELETE FROM lehrer 
+			     WHERE lehrer_id=" .$id. ";";
 		
 		try {
 			$success_delete = mysql_query($sql);
@@ -136,9 +107,9 @@ class schueler extends Db implements Dmlable {
 	}
 	
 	public function getAllAsArray($restriction = '') {
-		$sql = "SELECT schueler_id
-					   ,vorname  
-			      FROM schueler 
+		$sql = "SELECT lehrer_id
+					   ,klasse  
+			      FROM lehrer 
 			     WHERE 1=1 ";
 		$sql .= $restriction. ";";
 		
@@ -149,34 +120,34 @@ class schueler extends Db implements Dmlable {
 				throw new MysqlException();
 			}
 			
-			$fachs = array();
+			$lehrer_id = array();
 			while ($row = mysql_fetch_assoc($result)) {
-				$fachs[$row['schueler_id']]['schueler_id'] = $row['schueler_id'];
-				$fachs[$row['schueler_id']]["vorname"] = $row['vorname'];
+				$lehrer_id[$row['lehrer_id']]['lehrer_id'] = $row['lehrer_id'];
+				$lehrer_id[$row['lehrer_id']]["klasse_id"] = $row['klasse_id'];
 			}		
 		} catch (MysqlException $e) {
 			Html::showAll($e);
 		}
 		
-		return $fachs;
+		return $klasse_id;
 	}
 	
 	public function load($id) {
 		
 		$sql = "SELECT * 
-				  FROM fach 
-				 WHERE schueler_id="  .$id. ";";
+				  FROM lehrer 
+				 WHERE lehrer_id="  .$id. ";";
 		
 		try {
 			$result = mysql_query($sql);
 			$row = mysql_fetch_assoc($result);
 			
-			if (empty($row['schueler_id'])) {
+			if (empty($row['lehrer_id'])) {
 				throw new Exception("Datensatz leer: ". $sql);
 			}
 			
-			$this->fach_id = $row['schueler_id'];
-			$this->name = $row['vorname'];
+			$this->lehrer_id = $row['lehrer_id'];
+			$this->klasse_id = $row['klasse_id'];
 			
 		} catch (MysqlException $e) {
 			Html::showAll($e);

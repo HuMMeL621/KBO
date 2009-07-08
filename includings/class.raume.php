@@ -1,26 +1,18 @@
 <?php
 
-class schueler extends Db implements Dmlable { 
+class raume extends Db implements Dmlable { 
 	
 	/*
 	 * PrimŠrschlŸssel 
 	 */
-	private $schueler_id;
+	private $raum_id;
 	/*
-	 * Name des Schulfachs
+	 * Name des Raumes
 	 * string
 	 * 45 Zeichen erlaubt
 	 */
 	private $vorname;
-	private $nachname;
-	private $klasse_id;
-	private $passwd;
 	
-	/*
-	 * Name des Schulfachs
-	 * string
-	 * 45 Zeichen erlaubt
-	 */
 	public function __construct() {
 		try {
 			parent::__construct();
@@ -33,10 +25,10 @@ class schueler extends Db implements Dmlable {
 	 * @return int
 	 */
 	public function getId() {
-		return $this->schueler_id;
+		return $this->raum_id;
 	}
-	public function setId($schueler_id) {
-		$this->schueler_id = $schueler_id;
+	public function setId($raum_id) {
+		$this->raum_id = $raum_id;
 	}
 	/**
 	 * @return string
@@ -50,23 +42,6 @@ class schueler extends Db implements Dmlable {
 	public function setVorname($vorname) {
 		$this->vorname = $vorname;
 	}
-	
-	public function getNachname() {
-		return $this->nachname;
-	}
-
-	public function setNachname($nachname) {
-		$this->nachname = $nachname;
-	}
-	
-	public function getPasswd() {
-		return $this->passwd;
-	}
-
-	public function setPasswd($passwd) {
-		$this->passwd = $passwd;
-	}
-	
 
 	/*
 	 * speichert das aktuelle Objekt
@@ -76,7 +51,7 @@ class schueler extends Db implements Dmlable {
 	 */
 	public function save() {
 		
-		if (isset($this->schueler_id)) {
+		if (isset($this->raum_id)) {
 			$this->update();
 		} else {
 			$this->insert();
@@ -87,7 +62,7 @@ class schueler extends Db implements Dmlable {
 	public function insert() {
 		
 		$sql = "INSERT INTO schueler 
-					   (schueler_id, name) 
+					   (raum_id, name) 
 				VALUES ('' 
 					   , '" .$this->vorname."');";
 
@@ -98,7 +73,7 @@ class schueler extends Db implements Dmlable {
 			}
 				
 			$insert_id = mysql_insert_id();
-			$this->fach_id = $insert_id;	
+			$this->raum_id = $insert_id;	
 		} catch (MysqlException $e) {
 			Html::showAll($e);
 		}
@@ -106,9 +81,9 @@ class schueler extends Db implements Dmlable {
 	
 	public function update() {
 		
-		$sql = "UPDATE fach 
+		$sql = "UPDATE raum 
 				   SET =vorname'" .$this->vorname. "' 
-				 WHERE schueler_id=" .$this->schueler_id. ";";
+				 WHERE raum_id=" .$this->raum_id. ";";
 		
 		try {
 			$success_update = mysql_query($sql);
@@ -123,7 +98,7 @@ class schueler extends Db implements Dmlable {
 	
 	public function delete($id) {
 		$sql = "DELETE FROM fach 
-			     WHERE schueler_id=" .$id. ";";
+			     WHERE raum_id=" .$id. ";";
 		
 		try {
 			$success_delete = mysql_query($sql);
@@ -136,9 +111,9 @@ class schueler extends Db implements Dmlable {
 	}
 	
 	public function getAllAsArray($restriction = '') {
-		$sql = "SELECT schueler_id
+		$sql = "SELECT raum_id
 					   ,vorname  
-			      FROM schueler 
+			      FROM raum 
 			     WHERE 1=1 ";
 		$sql .= $restriction. ";";
 		
@@ -149,33 +124,33 @@ class schueler extends Db implements Dmlable {
 				throw new MysqlException();
 			}
 			
-			$fachs = array();
+			$raum = array();
 			while ($row = mysql_fetch_assoc($result)) {
-				$fachs[$row['schueler_id']]['schueler_id'] = $row['schueler_id'];
-				$fachs[$row['schueler_id']]["vorname"] = $row['vorname'];
+				$raum[$row['raum_id']]['raum_id'] = $row['raum_id'];
+				$raum[$row['raum_id']]["vorname"] = $row['vorname'];
 			}		
 		} catch (MysqlException $e) {
 			Html::showAll($e);
 		}
 		
-		return $fachs;
+		return $vorname;
 	}
 	
 	public function load($id) {
 		
 		$sql = "SELECT * 
-				  FROM fach 
-				 WHERE schueler_id="  .$id. ";";
+				  FROM raum 
+				 WHERE raum_id="  .$id. ";";
 		
 		try {
 			$result = mysql_query($sql);
 			$row = mysql_fetch_assoc($result);
 			
-			if (empty($row['schueler_id'])) {
+			if (empty($row['raum_id'])) {
 				throw new Exception("Datensatz leer: ". $sql);
 			}
 			
-			$this->fach_id = $row['schueler_id'];
+			$this->raum_id = $row['raum_id'];
 			$this->name = $row['vorname'];
 			
 		} catch (MysqlException $e) {

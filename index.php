@@ -8,10 +8,10 @@
 /**********************************************************/
 
 
-//Informationen für das array $_SESSTION beim einloggen
+//Informationen fï¿½r das array $_SESSTION beim einloggen
 $_SESSION['user']['user_id']    //ID des eingeloggten Users
-                 ['vorname']    //Vorname des Schülers aus der Datenbank
-                 ['nachname']   //Nachname des Schülers aus der Datenbank
+                 ['vorname']    //Vorname des Schï¿½lers aus der Datenbank
+                 ['nachname']   //Nachname des Schï¿½lers aus der Datenbank
                  ['level'];     //Level (Was darf der Schueler sehen?)
 
 
@@ -23,11 +23,16 @@ $_SESSION['user']['user_id']    //ID des eingeloggten Users
 /**/   include ('includings/class.rights.php');         /**/
 /**/   include ('includings/class.db.php');             /**/
 /**/   include ('includings/class.html.php');           /**/
+/**/   include ('includings/class.anwesenheit.php');    /**/
+/**/   include ('includings/class.eintragung.php');     /**/
+/**/   include ('includings/class.fach.php');           /**/
 /**/   include ('includings/class.klasse.php');         /**/
+/**/   include ('includings/class.lehrer.php');         /**/
+/**/   include ('includings/class.note.php');           /**/
+/**/   include ('includings/class.raume.php');          /**/
 /**/   include ('includings/class.schueler.php');       /**/
+/**/   include ('includings/class.user.php');           /**/
 /**/   include ('includings/class.stundenplan.php');    /**/
-/**/   include ('views/test_schueler.php');             /**/
-/**/   include ('views/test_klasse.php');               /**/
 /**/                                                    /**/
 /**********************************************************/
 

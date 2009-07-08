@@ -1,16 +1,12 @@
 <?php
 
-class Klasse extends db implements Dmlable{
+class User extends Db implements Dmlable{
 	
 	//Primärschlüssel
-	private $klasse_id;
-	
-	/*Name der Klasse
-	 *string
-	 *45 Zeichen erlaubt
-	*/
-	private $name;
-	private $aktiv;
+	private $user_id;
+	private $login;
+	private $passwd;
+	private $typ;
 	
 	public function __construct(){
 		try{
@@ -21,34 +17,37 @@ class Klasse extends db implements Dmlable{
 		}
 	}
 	
-	/*
-	 *resturn int
-	*/
 	public function getId(){
-		return $this -> klasse_id;
+		return	$this -> user_id;
 	}
 	
-	/*
-	 *parameter int $klasse_id
-	*/
-	public function setId($klasse_id){
-		$this->klasse_id = $klasse_id;
+	public function setId($user_id){
+		$this -> user_id = $user_id;
 	}
 	
-	/*
-	 *return string
-	*/
-	public function getName(){
-		return $this -> name;
+	public function getLogin(){
+		return $this -> login;
 	}
 	
-	/*
-	 *parameter string $name
-	*/
-	public function setName($name){
-		$this->name = $name;
+	public function setLogin ($login){
+		$this -> login = $login;
 	}
 	
+	public function getPasswd(){
+		return $this -> passwd;
+	}
+	
+	public function setPasswd($passwd){
+		$this -> passwd = $passwd;
+	}
+	
+	public function getTyp(){
+		return $this -> typ;
+	}
+	
+	public function setType($type){
+		$this -> type = $type;
+	}
 	/*
 	 *Speicherung des Aktuellen Objektes
 	 *falls kein Primärschlüssel existieren sollte
@@ -56,7 +55,7 @@ class Klasse extends db implements Dmlable{
 	 *andernfalls ein Udate durchgeführt
 	*/
 	public function save(){
-		if(isset($this->$klasse_id)){
+		if(isset($this->$user_id)){
 				$this->update();
 		} else {
 				$this->insert();
@@ -64,9 +63,9 @@ class Klasse extends db implements Dmlable{
 	}
 	
 	public function insert(){
-		$sql = "INSERT INTO klasse
-					   (klasse_id,name)
-				VALUES ('','".$this->name."');";
+		$sql = "INSERT INTO user
+					   (user_id,login,passwd,typ)
+				VALUES ('','".$this->login."','".$this->passwd."','');";
 				
 		try{
 			$success_insert = mysql_query($sql);
@@ -75,16 +74,18 @@ class Klasse extends db implements Dmlable{
 			}
 			
 			$insert_id = mysql_insert_id();
-			$this->$klasse_id = $insert_id;
+			$this->$user_id = $insert_id;
 		} catch (MysqlException $e){
 				Html::showAll($e);
 		  }
 	}
 	
 	public function update(){
-		$sql = "UPDATE klasse
-				   SET name'".$this->name."'
-				 WHERE klasse_id".$this->klasse.";";
+		$sql = "UPDATE user
+				   SET login'".$this->login."',
+					   passwd'".$this->passwd."',
+					   typ'".$this->type."',				   
+				 WHERE user_id".$this->user_id.";";
 		
 		try{
 			$success_delete = mysql_query($sql);
@@ -98,8 +99,8 @@ class Klasse extends db implements Dmlable{
 	}
 	
 	public function delete($id){
-		$sql = "DELETE FROM klasse
-				WHERE klasse_id=".$id.";";
+		$sql = "DELETE FROM user
+				WHERE user_id=".$id.";";
 		try{
 			$success_delete = mysql_query($sql);
 			if (!success_delete) {
@@ -112,9 +113,11 @@ class Klasse extends db implements Dmlable{
 	}		
 	
 	public function getAllAsArray($restriction = ''){
-		$sql="SELECT klasse_id
-				     ,name
-				FROM klasse
+		$sql="SELECT user_id
+				     ,login
+					 ,passwd
+					 ,typ
+				FROM user
 				WHERE 1=1";
 		$sql .=$restriction. ";";
 		
@@ -125,34 +128,38 @@ class Klasse extends db implements Dmlable{
 				throw new MysqlException();
 			}
 			
-			$klassen = array();
+			$anwesenheiten = array();
 			while ($row = mysql_fetch_assoc($result)){
-				$klassen[$row['klasse_id']]['klasse_id'] = $row['klasse_id'];
-				$klassen[$row['klasse_id']]["name"] = $row['name'];
+				$anwesenheiten[$row['user_id']]['user_id'] = $row['user_id'];
+				$anwesenheiten[$row['user_id']]['login'] = $row['login'];
+				$anwesenheiten[$row['user_id']]['passwd'] = $row['passwd'];
+				$anwesenheiten[$row['user_id']]['typ'] = $row['typ'];
 			}
 		}
 		catch(MysqlException $e){
 			Html::showAll($e);
 		}
 		
-		return $klassen;
+		return $noten;
 	}
 	public function load($id){
 	
 		$sql="SELECT *
-				FROM klasse
-			  	WHERE klasse_id=".$id.";";
+				FROM user
+			  	WHERE user_id=".$id.";";
 		
 		try{
 			$result = mysql_query ($sql);
 			$row = mysql_fetch_assoc($result);
 			
-			if (empty($row['fach_id'])){
+			if (empty($row['user_id'])){
 				throw new MysqlException("Datensatz leer: ". $sql);
 			}
 			
-			$this->klasse_id=$row['klasse_id'];
-			$this->name=$row['name'];
+			$this->anwesenheit_id=$row['user_id'];
+			$this->status=$row['login'];
+			$this->verspaetung=$row['passwd'];
+			$this->datum=$row['typ'];
 			
 		}
 		catch (MysqlException $e) {

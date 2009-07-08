@@ -1,16 +1,17 @@
 <?php
 
-class Klasse extends db implements Dmlable{
+class Eintragung extends Db implements Dmlable{
 	
-	//PrimÃ¤rschlÃ¼ssel
+	//Primärschlüssel
 	private $klasse_id;
 	
-	/*Name der Klasse
+	/*Name der Eintragung
 	 *string
 	 *45 Zeichen erlaubt
 	*/
-	private $name;
-	private $aktiv;
+	private $fach_id;
+	private $block_nr;
+	private $lehrer_id;
 	
 	public function __construct(){
 		try{
@@ -38,22 +39,22 @@ class Klasse extends db implements Dmlable{
 	/*
 	 *return string
 	*/
-	public function getName(){
-		return $this -> name;
+	public function getFach(){
+		return $this -> fach_id;
 	}
 	
 	/*
-	 *parameter string $name
+	 *parameter string $fach_id
 	*/
-	public function setName($name){
-		$this->name = $name;
+	public function setFach($fach_id){
+		$this->fach = $fach_id;
 	}
 	
 	/*
 	 *Speicherung des Aktuellen Objektes
-	 *falls kein PrimÃ¤rschlÃ¼ssel existieren sollte
+	 *falls kein Primärschlüssel existieren sollte
 	 *wird ein neuer Datensatz erzeugt
-	 *andernfalls ein Udate durchgefÃ¼hrt
+	 *andernfalls ein Udate durchgeführt
 	*/
 	public function save(){
 		if(isset($this->$klasse_id)){
@@ -65,8 +66,8 @@ class Klasse extends db implements Dmlable{
 	
 	public function insert(){
 		$sql = "INSERT INTO klasse
-					   (klasse_id,name)
-				VALUES ('','".$this->name."');";
+					   (klasse_id,fach_id)
+				VALUES ('','".$this->fach_id."');";
 				
 		try{
 			$success_insert = mysql_query($sql);
@@ -83,8 +84,8 @@ class Klasse extends db implements Dmlable{
 	
 	public function update(){
 		$sql = "UPDATE klasse
-				   SET name'".$this->name."'
-				 WHERE klasse_id".$this->klasse.";";
+				   SET name'".$this->fach_id."'
+				 WHERE fach_id".$this->fach.";";
 		
 		try{
 			$success_delete = mysql_query($sql);
@@ -164,7 +165,5 @@ class Klasse extends db implements Dmlable{
 		
 	}
 	
-	
 }
-			
 ?>
