@@ -6,6 +6,7 @@ class Fach extends Db implements Dmlable {
 	 * PrimŠrschlŸssel 
 	 */
 	private $fach_id;
+	private $aktiv;
 	
 	/*
 	 * Name des Schulfachs
@@ -51,7 +52,15 @@ class Fach extends Db implements Dmlable {
 	public function setName($name) {
 		$this->name = $name;
 	}
-
+	/**
+	 * Aktiv
+	 */
+    public function getAktiv() {
+		return $this->aktiv;
+	}
+	public function setAktiv($aktiv) {
+		$this->aktiv = $aktiv;
+	}	
 	/*
 	 * speichert das aktuelle Objekt
 	 * falls kein PrimŠrschlŸssel existiert
@@ -71,9 +80,9 @@ class Fach extends Db implements Dmlable {
 	public function insert() {
 		
 		$sql = "INSERT INTO fach 
-					   (fach_id, name) 
+					   (fach_id, name,aktiv) 
 				VALUES ('' 
-					   , '" .$this->name."');";
+					   , '" .$this->name."','".$this->aktiv."');";
 
 		try {
 			$success_insert = mysql_query($sql);
@@ -91,7 +100,7 @@ class Fach extends Db implements Dmlable {
 	public function update() {
 		
 		$sql = "UPDATE fach 
-				   SET name='" .$this->name. "' 
+				   SET name='" .$this->name. "','".$this->aktiv."' 
 				 WHERE fach_id=" .$this->fach_id. ";";
 		
 		try {
@@ -121,7 +130,8 @@ class Fach extends Db implements Dmlable {
 	
 	public function getAllAsArray($restriction = '') {
 		$sql = "SELECT fach_id
-					   ,name  
+					   ,name
+					   ,aktiv
 			      FROM fach 
 			     WHERE 1=1 ";
 		$sql .= $restriction. ";";
@@ -137,6 +147,7 @@ class Fach extends Db implements Dmlable {
 			while ($row = mysql_fetch_assoc($result)) {
 				$fachs[$row['fach_id']]['fach_id'] = $row['fach_id'];
 				$fachs[$row['fach_id']]["name"] = $row['name'];
+				$aktiv[$row['aktiv']]["aktiv"] = $row['aktiv'];
 			}		
 		} catch (MysqlException $e) {
 			Html::showAll($e);
