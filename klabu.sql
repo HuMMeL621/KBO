@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 09. Juli 2009 um 16:21
+-- Erstellungszeit: 09. Juli 2009 um 17:42
 -- Server Version: 5.1.33
 -- PHP-Version: 5.2.9
 
@@ -178,39 +178,41 @@ INSERT INTO `lehrer_2_klasse` (`lehrer_id`, `klasse_id`) VALUES
 CREATE TABLE IF NOT EXISTS `noten` (
   `schueler_id` int(11) NOT NULL,
   `fach_id` int(11) NOT NULL,
-  `typ` varchar(45) NOT NULL,
+  `typ` enum('K','T','M','V') NOT NULL COMMENT 'K)lassenarbeit T)est M)uendlich V)ortrag',
   `datum` date NOT NULL,
   `lehrer_id` int(11) NOT NULL,
   `klasse_id` int(11) NOT NULL,
   `note` int(11) NOT NULL COMMENT 'punktesystem',
   `note_id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`note_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Daten für Tabelle `noten`
 --
 
 INSERT INTO `noten` (`schueler_id`, `fach_id`, `typ`, `datum`, `lehrer_id`, `klasse_id`, `note`, `note_id`) VALUES
-(0, 0, '', '0000-00-00', 0, 0, 0, 1);
+(3, 3, 'K', '2009-07-09', 3, 3, 2, 3),
+(3, 3, 'M', '2009-07-09', 3, 3, 3, 2),
+(1, 3, 'T', '2009-07-09', 3, 3, 1, 4);
 
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `raume`
+-- Tabellenstruktur für Tabelle `raum`
 --
 
-CREATE TABLE IF NOT EXISTS `raume` (
+CREATE TABLE IF NOT EXISTS `raum` (
   `raum_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`raum_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
--- Daten für Tabelle `raume`
+-- Daten für Tabelle `raum`
 --
 
-INSERT INTO `raume` (`raum_id`, `name`) VALUES
+INSERT INTO `raum` (`raum_id`, `name`) VALUES
 (3, '1.19'),
 (9, '0.13'),
 (8, '2.13'),
@@ -283,7 +285,7 @@ CREATE TABLE IF NOT EXISTS `wochenplan` (
 --
 
 INSERT INTO `wochenplan` (`wochenplan_id`, `datum`, `raum_id`, `lehrer_id`, `vertretung_id`, `klasse_id`, `fach_id`, `block_nr`, `locked`) VALUES
-(1, '2009-07-01', 3, 1, 3, 3, 3, 2, 0),
+(1, '2009-07-01', 3, 1, 0, 3, 3, 2, 0),
 (2, '2009-07-01', 3, 1, 0, 3, 2, 3, 0);
 
 -- --------------------------------------------------------
