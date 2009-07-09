@@ -13,9 +13,10 @@ class Noten extends db implements Dmlable{
 
         public $notens;
 
-	/*Name der Klasse
-	 *string
-	 *45 Zeichen erlaubt
+	/*
+         * Name der Klasse
+	 * string
+	 * 45 Zeichen erlaubt
 	*/
 	private $type;
 	
@@ -232,12 +233,11 @@ class Noten extends db implements Dmlable{
 		return $noten;
 	}
 
-        /*
-         * 		$this->setId($schueler_id);
-		$this->setTyp($typ);
-		$this->setFach_id($fach_id);
-		$this->setDatum($datum);
-		$this->setPunkte($punkte);
+        /**
+         *
+         * @param <type> $restriction
+         *
+         * Hier wird die Variable Noten aufgefüllt :)
          */
 
 	public function getAllAsObject($restriction = ''){

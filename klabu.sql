@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 08. Juli 2009 um 13:05
+-- Erstellungszeit: 09. Juli 2009 um 16:21
 -- Server Version: 5.1.33
 -- PHP-Version: 5.2.9
 
@@ -75,6 +75,7 @@ INSERT INTO `eintragungen` (`eintragungen_id`, `datum`, `klasse_id`, `fach_id`, 
 CREATE TABLE IF NOT EXISTS `fach` (
   `fach_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
+  `aktiv` enum('TRUE','FALSE') NOT NULL,
   PRIMARY KEY (`fach_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
@@ -82,13 +83,13 @@ CREATE TABLE IF NOT EXISTS `fach` (
 -- Daten für Tabelle `fach`
 --
 
-INSERT INTO `fach` (`fach_id`, `name`) VALUES
-(1, 'Deutsch'),
-(2, 'Mathe'),
-(3, 'Programmieren'),
-(4, 'Sport'),
-(5, 'AWL'),
-(6, 'Englisch');
+INSERT INTO `fach` (`fach_id`, `name`, `aktiv`) VALUES
+(1, 'Deutsch', 'TRUE'),
+(2, 'Mathe', 'TRUE'),
+(3, 'Programmieren', 'TRUE'),
+(4, 'Sport', 'TRUE'),
+(5, 'AWL', 'TRUE'),
+(6, 'Englisch', 'TRUE');
 
 -- --------------------------------------------------------
 
