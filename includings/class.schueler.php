@@ -1,6 +1,6 @@
 <?php
 
-class schueler extends db implements Dmlable { 
+class schueler extends Db implements Dmlable { 
 	
 	/*
 	 * PrimŠrschlŸssel 
@@ -15,7 +15,10 @@ class schueler extends db implements Dmlable {
 	private $nachname;
 	private $klasse_id;
 	private $passwd;
-	private $notens;
+
+        public $notens;
+
+        public $anwesenheits;
 	
 	/*
 	 * Name des Schulfachs
@@ -29,6 +32,8 @@ class schueler extends db implements Dmlable {
 		catch (MysqlException $e) {
 			Html::showAll($e);
 	    }
+            //Noten alles Schueler werden übergeben
+            $notens = Noten::getAllAsObject();
 	}
 	/**
 	 * @return int
@@ -88,7 +93,7 @@ class schueler extends db implements Dmlable {
 	public function insert() {
 		
 		$sql = "INSERT INTO schueler 
-					   (schueler_id, name, notens) 
+					   (schueler_id, name) 
 				VALUES ('' 
 					   , '" .$this->vorname."');";
 
@@ -138,8 +143,7 @@ class schueler extends db implements Dmlable {
 	
 	public function getAllAsArray($restriction = '') {
 		$sql = "SELECT schueler_id
-					   ,vorname
-					   ,notens					   
+					   ,vorname  
 			      FROM schueler 
 			     WHERE 1=1 ";
 		$sql .= $restriction. ";";
@@ -155,7 +159,6 @@ class schueler extends db implements Dmlable {
 			while ($row = mysql_fetch_assoc($result)) {
 				$fachs[$row['schueler_id']]['schueler_id'] = $row['schueler_id'];
 				$fachs[$row['schueler_id']]["vorname"] = $row['vorname'];
-				$fachs[$row['schueler_id']]["notens"] = $row['notens'];
 			}		
 		} catch (MysqlException $e) {
 			Html::showAll($e);
@@ -167,7 +170,7 @@ class schueler extends db implements Dmlable {
 	public function load($id) {
 		
 		$sql = "SELECT * 
-				  FROM fach 
+				 FROM schueler
 				 WHERE schueler_id="  .$id. ";";
 		
 		try {
@@ -178,8 +181,8 @@ class schueler extends db implements Dmlable {
 				throw new Exception("Datensatz leer: ". $sql);
 			}
 			
-			$this->fach_id = $row['schueler_id'];
-			$this->name = $row['vorname'];
+			$this->schueler_id = $row['schueler_id'];
+			$this->name = $row['vorname']." ".$row['nachname'];
 			
 		} catch (MysqlException $e) {
 			Html::showAll($e);
@@ -188,20 +191,19 @@ class schueler extends db implements Dmlable {
 		}
 
 	}
-	    public function loadNotens($schueler_id=0,$notens=0 ) {
-			$schueler_id
-			$n= new Noten ();
-            $schueler_id=array();
-            foreach($notens as $noten) {
-                if ($noten['schueler_id']==$schueler_id) {
-                    $schueler_id[]=$noten;
-                }
-            }
 
+        public function loadAnwesenheits() {
+            $von='1970-01-01';
+            $bis='2070-01-01';
+            $a=new Anwesenheit();
+            $this->anwesenheits = $a->getAllAsObject($von, $bis, $this);
         }
-	
-	
-}
 
+        public function loadNotens() {
+            $n=new Noten();
+            $this->notens = $n->getNoten($this->getId());
+        }
+
+}
 
 ?>

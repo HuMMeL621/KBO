@@ -201,8 +201,54 @@ class Anwesenheit extends db implements Dmlable{
 			Html::showAll($e);
 		}
 		
-		return $noten;
+		return $anwesenheiten;
 	}
+
+        public function getAllAsObject($von='', $bis='', $s=0) {
+
+		$sql="SELECT anwesenheit_id
+				     ,schueler_id
+					 ,klasse_id
+					 ,datum
+					 ,status
+					 ,verspaetung
+                                         ,unterrichtsstunde_id
+				FROM anwesenheit
+				WHERE datum >= '".$von."' AND datum <='".$bis."'";
+               if($s instanceof schueler) {
+                    $schueler_id=$s->getId();
+                    $sql .= " AND schueler_id = ".$schueler_id;
+               }elseif($s instanceof klasse) {
+                    $klasse_id=$s->getId();
+                    $sql .= " AND klasse_id = ".$klasse_id;
+               }
+               
+		try {
+			$result = mysql_query($sql);
+
+			if(!result) {
+				throw new MysqlException();
+			}
+
+			$anwesenheiten = array();
+			while ($row = mysql_fetch_assoc($result)){
+				$anwesenheiten[$row['anwesenheit_id']]['anwesenheit_id'] = $row['anwesenheit_id'];
+				$anwesenheiten[$row['anwesenheit_id']]['schueler_id'] = $row['schueler_id'];
+				$anwesenheiten[$row['anwesenheit_id']]['datum'] = $row['datum'];
+				$anwesenheiten[$row['anwesenheit_id']]['klasse_id'] = $row['klasse_id'];
+				$anwesenheiten[$row['anwesenheit_id']]['verspaetung'] = $row['verspaetung'];
+				$anwesenheiten[$row['anwesenheit_id']]['status'] = $row['status'];
+                                $anwesenheiten[$row['anwesenheit_id']]['unterrichtsstunde_id'] = $row['unterrichtsstunde_id'];
+                        }
+		}
+		catch(MysqlException $e){
+			Html::showAll($e);
+		}
+
+            return $anwesenheiten;
+        }
+
+
 	public function load($id){
 	
 		$sql="SELECT *

@@ -1,9 +1,11 @@
 <?php
 
-$testme = new Noten;
+$testme = new schueler();
 
-$testthis = $testme->getAllNoten(3);
+$testme->load(1);
 
-html::showAll($testthis);
+$testme->loadAnwesenheits();
+$testme->loadNotens();
+html::showAll($testme);
 
 ?>

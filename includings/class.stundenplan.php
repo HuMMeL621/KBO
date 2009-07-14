@@ -1,127 +1,128 @@
 <?php
 
-class stundenplan extends Db implements Dmlable {
+class stundenplan extends db implements Dmlable {
+
+
+	public function __construct(){
+		try{
+			parent::__construct();
+		}
+		catch(MysqlException $e){
+			Html::showAll($e);
+		}
+	}
 
         /**
-         * Methode um die Block-Zeiten aus der Datenbank zu lesen.
-         * Diese werden als über ein Array zurück gegeben
+         *
+         * @return array
+         *
+         * Ausgabe alles Blockzeiten
          */
 
         public function get_Blocks() {
 
-
             //sql-Befehl zur ausgabe der Zeiten und des Blocks
-            $sql = "SELECT block_nr, von, bis
+            $sql = "SELECT block_id, von, bis
                     FROM zeiten";
-            $result = mysql_query($sql);
 
 
-            /*
-             * Fehlerbehandlung falls die Anfrage fehlt schlägt
-             */
-            if(!result) {
-                echo "Die Anfrage ".$sql." ".
-                     "konnte nicht bearbeitet werden".mysql_error();
-            }
+            		try {
+			$result = mysql_query($sql);
 
-            /*
-             * Datenbank ist leer ;)
-             */
+			if(!result) {
+				throw new MysqlException();
+			}
 
-            if(mysql_num_rows($result)==0) {
-                echo "Error: Anfrage wurde nicht durchgeführt,
-                      da keine Zeilen zum ausgeben gefunden wurden";
-            }
-
-            /**
-             * - Wenn alles glatt läuft gehts hier weiter:
-             * - Alle Daten werden in ein Array ($ausgabe) geschrieben
-             * - und mit return zurück gegeben
-             */
-
-            while($data = mysql_fetch_assoc($result)) {
-                
-                $ausgabe[$data['block_nr']] = $data;
-
-             }
+			$klassen = array();
+			while ($row = mysql_fetch_assoc($result)){
+                             $ausgabe[$data['block_id']] = $data;
+			}
+		}
+		catch(MysqlException $e){
+			Html::showAll($e);
+		}
 
             return $ausgabe;            //Nachdem die While Schleife durchlaufen ist,
                                         //wird das array übergeben
 
             mysql_free_result($result); //Aufräumen
-            $klabu_db->disconnect();    //Verbindung trennen
+        }
+
+        public function getAllAsObject($wochenbeginn='') {
+        
+        //$anwesenheits = Anwesenheit::getAllAsObject();
 
         }
 
 
-        /**
-         * Durch die Angabe der Klasse und des Datums,
-         * werden alle Fächer der Klasse dargestellt
-         */
-
-        public function get_Tagesplan($klasse_id=0, $datum = "") {
-
-
-            //sql-Befehl zur ausgabe der Zeiten und des Blocks
-            $sql = "SELECT block_nr, datum, klasse_id,
-                    raum_id, lehrer_id, vertretung_id, fach_id, block_nr
-                    FROM wochenplan
-                    WHERE klasse_id = ".$klasse_id." "."
-                    AND datum = '".$datum."'";
-
-            $result = mysql_query($sql);
-
-            echo $sql;
-
-
-            /*
-             * Fehlerbehandlung falls die Anfrage fehlt schlägt
-             */
-            if(!result) {
-                echo "Die Anfrage ".$sql.
-                       " konnte nicht bearbeitet werden".mysql_error();
-            }
-
-            /*
-             * Datenbank ist leer ;)
-             */
-
-            if(mysql_num_rows($result)==0) {
-                echo "Error: Anfrage wurde nicht durchgeführt,
-                      da keine Zeilen zum ausgeben gefunden wurden";
-            }
-
-            /**
-             * - Wenn alles glatt läuft gehts hier weiter:
-             * - Alle Daten werden in ein Array ($ausgabe) geschrieben
-             * - und mit return zurück gegeben
-             */
-
-
-            while($data = mysql_fetch_assoc($result)) {
-
-                $dummy['datum']=$data['datum'];
-                $dummy['klasse']=db::resolve_Id(klasse, klasse_id, $data['klasse_id']);
-                $dummy['raum']=db::resolve_Id(raume, raum_id, $data['raum_id']);
-                $dummy['lehrer']=db::resolve_Lehrer($data['lehrer_id']);
-                $dummy['fach']=db::resolve_Id(fach, fach_id, $data['fach_id']);
-                $dummy['block_nr']=$data['block_nr'];
-
-                //Vertretung nur Anzeigen falls eine Vertretung gewählt wurde
-                if($data['vertretung_id']!=0) {
-                $dummy['vertretung']=db::resolve_Lehrer($data['vertretung_id']); }
-
-                $ausgabe[] = $dummy;
-
-             }
-
-            return $ausgabe;            //Nachdem die While Schleife durchlaufen ist,
-                                        //wird das array übergeben
-
-            mysql_free_result($result); //Aufräumen
-            $klabu_db->disconnect();    //Verbindung trennen
-
-        }
+//        /**
+//         * Durch die Angabe der Klasse und des Datums,
+//         * werden alle Fächer der Klasse dargestellt
+//         */
+//
+//        public function get_Tagesplan($klasse_id=0, $datum = "") {
+//
+//
+//            //sql-Befehl zur ausgabe der Zeiten und des Blocks
+//            $sql = "SELECT block_id, datum, klasse_id,
+//                    raum_id, lehrer_id, vertretung_id, fach_id, block_nr
+//                    FROM unterrichtsstunde
+//                    WHERE klasse_id = ".$klasse_id." "."
+//                    AND datum = '".$datum."'";
+//
+//            $result = mysql_query($sql);
+//
+//            echo $sql;
+//
+//
+//            /*
+//             * Fehlerbehandlung falls die Anfrage fehlt schlägt
+//             */
+//            if(!result) {
+//                echo "Die Anfrage ".$sql.
+//                       " konnte nicht bearbeitet werden".mysql_error();
+//            }
+//
+//            /*
+//             * Datenbank ist leer ;)
+//             */
+//
+//            if(mysql_num_rows($result)==0) {
+//                echo "Error: Anfrage wurde nicht durchgeführt,
+//                      da keine Zeilen zum ausgeben gefunden wurden";
+//            }
+//
+//            /**
+//             * - Wenn alles glatt läuft gehts hier weiter:
+//             * - Alle Daten werden in ein Array ($ausgabe) geschrieben
+//             * - und mit return zurück gegeben
+//             */
+//
+//
+//            while($data = mysql_fetch_assoc($result)) {
+//
+//                $dummy['datum']=$data['datum'];
+//                $dummy['klasse']=db::resolve_Id(klasse, klasse_id, $data['klasse_id']);
+//                $dummy['raum']=db::resolve_Id(raume, raum_id, $data['raum_id']);
+//                $dummy['lehrer']=db::resolve_Lehrer($data['lehrer_id']);
+//                $dummy['fach']=db::resolve_Id(fach, fach_id, $data['fach_id']);
+//                $dummy['block_nr']=$data['block_nr'];
+//
+//                //Vertretung nur Anzeigen falls eine Vertretung gewählt wurde
+//                if($data['vertretung_id']!=0) {
+//                $dummy['vertretung']=db::resolve_Lehrer($data['vertretung_id']); }
+//
+//                $ausgabe[] = $dummy;
+//
+//             }
+//
+//            return $ausgabe;            //Nachdem die While Schleife durchlaufen ist,
+//                                        //wird das array übergeben
+//
+//            mysql_free_result($result); //Aufräumen
+//            $klabu_db->disconnect();    //Verbindung trennen
+//
+//        }
 
         /**
          * Auslesen der Lehrer, des Fachs und des Raums durch

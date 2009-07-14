@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 13, 2009 at 10:15 
+-- Generation Time: Jul 14, 2009 at 12:56 
 -- Server version: 5.1.33
 -- PHP Version: 5.2.9
 
@@ -26,15 +26,18 @@ CREATE TABLE IF NOT EXISTS `anwesenheit` (
   `schueler_id` int(11) NOT NULL,
   `datum` date NOT NULL,
   `klasse_id` int(11) NOT NULL,
-  `status` varchar(45) NOT NULL,
   `verspaetung` time NOT NULL,
+  `unterrichtsstunde_id` int(11) NOT NULL,
+  `status` enum('V','A','E','U') NOT NULL COMMENT 'V)erspaetet A)nwesend E)ntschuldigt U)nentschuldigt',
   PRIMARY KEY (`anwesenheit_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `anwesenheit`
 --
 
+INSERT INTO `anwesenheit` (`anwesenheit_id`, `schueler_id`, `datum`, `klasse_id`, `verspaetung`, `unterrichtsstunde_id`, `status`) VALUES
+(1, 1, '2009-07-09', 3, '00:00:00', 1, 'A');
 
 -- --------------------------------------------------------
 
@@ -134,6 +137,7 @@ CREATE TABLE IF NOT EXISTS `lehrer` (
   `vorname` varchar(45) NOT NULL,
   `nachname` varchar(45) NOT NULL,
   `level` int(11) NOT NULL COMMENT '0) Lehrer 1)FBL',
+  `aktiv` enum('TRUE','FALSE') NOT NULL,
   PRIMARY KEY (`lehrer_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
@@ -142,13 +146,13 @@ CREATE TABLE IF NOT EXISTS `lehrer` (
 -- Dumping data for table `lehrer`
 --
 
-INSERT INTO `lehrer` (`lehrer_id`, `user_id`, `vorname`, `nachname`, `level`) VALUES
-(1, 0, 'Vivian', 'Uibel', 0),
-(2, 0, 'Stefan', 'Voigt', 1),
-(3, 0, 'Rolf', 'Haeckel', 0),
-(4, 0, 'Brita', 'Lehmann', 1),
-(5, 0, 'Anne', 'Jappel', 1),
-(0, 0, 'NULL', 'NULL', 0);
+INSERT INTO `lehrer` (`lehrer_id`, `user_id`, `vorname`, `nachname`, `level`, `aktiv`) VALUES
+(1, 0, 'Vivian', 'Uibel', 0, 'TRUE'),
+(2, 0, 'Stefan', 'Voigt', 1, 'TRUE'),
+(3, 0, 'Rolf', 'Haeckel', 0, 'TRUE'),
+(4, 0, 'Brita', 'Lehmann', 1, 'TRUE'),
+(5, 0, 'Anne', 'Jappel', 1, 'TRUE'),
+(0, 0, 'NULL', 'NULL', 0, 'TRUE');
 
 -- --------------------------------------------------------
 
@@ -232,14 +236,45 @@ CREATE TABLE IF NOT EXISTS `schueler` (
   `vorname` varchar(45) NOT NULL,
   `nachname` varchar(45) NOT NULL,
   `klasse_id` int(11) NOT NULL,
+  `aktiv` enum('TRUE','FALSE') NOT NULL,
   PRIMARY KEY (`schueler_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `schueler`
 --
 
+INSERT INTO `schueler` (`schueler_id`, `user_id`, `vorname`, `nachname`, `klasse_id`, `aktiv`) VALUES
+(1, 1, 'Peter', 'Pan', 3, 'TRUE');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `unterrichtsstunde`
+--
+
+CREATE TABLE IF NOT EXISTS `unterrichtsstunde` (
+  `unterrichtsstunde_id` int(11) NOT NULL AUTO_INCREMENT,
+  `datum` date NOT NULL,
+  `raum_id` int(11) NOT NULL,
+  `lehrer_id` int(11) NOT NULL,
+  `vertretung_id` int(11) NOT NULL,
+  `klasse_id` int(11) NOT NULL,
+  `fach_id` int(11) NOT NULL,
+  `block_id` int(11) NOT NULL,
+  `fbl_id` int(11) NOT NULL COMMENT '0)unlocked 1)Locked',
+  `abgezeichnet_id` int(11) NOT NULL,
+  PRIMARY KEY (`unterrichtsstunde_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `unterrichtsstunde`
+--
+
+INSERT INTO `unterrichtsstunde` (`unterrichtsstunde_id`, `datum`, `raum_id`, `lehrer_id`, `vertretung_id`, `klasse_id`, `fach_id`, `block_id`, `fbl_id`, `abgezeichnet_id`) VALUES
+(1, '2009-07-01', 3, 1, 0, 3, 3, 2, 0, 0),
+(2, '2009-07-01', 3, 1, 0, 3, 2, 3, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -253,6 +288,8 @@ CREATE TABLE IF NOT EXISTS `user` (
   `passwd` varchar(45) NOT NULL COMMENT 'Password',
   `typ` enum('schueler','lehrer','fbl','admin') NOT NULL,
   `aktiv` enum('TRUE','FALSE') NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `geburtstag` date NOT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `login` (`login`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
@@ -265,48 +302,21 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `wochenplan`
---
-
-CREATE TABLE IF NOT EXISTS `wochenplan` (
-  `wochenplan_id` int(11) NOT NULL AUTO_INCREMENT,
-  `datum` date NOT NULL,
-  `raum_id` int(11) NOT NULL,
-  `lehrer_id` int(11) NOT NULL,
-  `vertretung_id` int(11) NOT NULL,
-  `klasse_id` int(11) NOT NULL,
-  `fach_id` int(11) NOT NULL,
-  `block_nr` int(11) NOT NULL,
-  `locked` int(11) NOT NULL COMMENT '0)unlocked 1)Locked',
-  PRIMARY KEY (`wochenplan_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
---
--- Dumping data for table `wochenplan`
---
-
-INSERT INTO `wochenplan` (`wochenplan_id`, `datum`, `raum_id`, `lehrer_id`, `vertretung_id`, `klasse_id`, `fach_id`, `block_nr`, `locked`) VALUES
-(1, '2009-07-01', 3, 1, 0, 3, 3, 2, 0),
-(2, '2009-07-01', 3, 1, 0, 3, 2, 3, 0);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `zeiten`
 --
 
 CREATE TABLE IF NOT EXISTS `zeiten` (
-  `block_nr` int(11) NOT NULL AUTO_INCREMENT,
+  `block_id` int(11) NOT NULL AUTO_INCREMENT,
   `von` time NOT NULL,
   `bis` time NOT NULL,
-  PRIMARY KEY (`block_nr`)
+  PRIMARY KEY (`block_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `zeiten`
 --
 
-INSERT INTO `zeiten` (`block_nr`, `von`, `bis`) VALUES
+INSERT INTO `zeiten` (`block_id`, `von`, `bis`) VALUES
 (1, '08:00:00', '09:30:00'),
 (2, '09:45:00', '11:15:00'),
 (3, '11:30:00', '13:00:00'),
