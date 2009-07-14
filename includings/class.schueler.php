@@ -1,6 +1,6 @@
 <?php
 
-class schueler extends Db implements Dmlable { 
+class schueler extends db implements Dmlable { 
 	
 	/*
 	 * PrimŠrschlŸssel 
@@ -15,8 +15,7 @@ class schueler extends Db implements Dmlable {
 	private $nachname;
 	private $klasse_id;
 	private $passwd;
-
-        public $notens;
+	private $notens;
 	
 	/*
 	 * Name des Schulfachs
@@ -30,8 +29,6 @@ class schueler extends Db implements Dmlable {
 		catch (MysqlException $e) {
 			Html::showAll($e);
 	    }
-            //Noten alles Schueler werden übergeben
-            $notens = Noten::getAllAsObject();
 	}
 	/**
 	 * @return int
@@ -91,7 +88,7 @@ class schueler extends Db implements Dmlable {
 	public function insert() {
 		
 		$sql = "INSERT INTO schueler 
-					   (schueler_id, name) 
+					   (schueler_id, name, notens) 
 				VALUES ('' 
 					   , '" .$this->vorname."');";
 
@@ -141,7 +138,8 @@ class schueler extends Db implements Dmlable {
 	
 	public function getAllAsArray($restriction = '') {
 		$sql = "SELECT schueler_id
-					   ,vorname  
+					   ,vorname
+					   ,notens					   
 			      FROM schueler 
 			     WHERE 1=1 ";
 		$sql .= $restriction. ";";
@@ -157,6 +155,7 @@ class schueler extends Db implements Dmlable {
 			while ($row = mysql_fetch_assoc($result)) {
 				$fachs[$row['schueler_id']]['schueler_id'] = $row['schueler_id'];
 				$fachs[$row['schueler_id']]["vorname"] = $row['vorname'];
+				$fachs[$row['schueler_id']]["notens"] = $row['notens'];
 			}		
 		} catch (MysqlException $e) {
 			Html::showAll($e);
@@ -189,7 +188,20 @@ class schueler extends Db implements Dmlable {
 		}
 
 	}
+	    public function loadNotens($schueler_id=0,$notens=0 ) {
+			$schueler_id
+			$n= new Noten ();
+            $schueler_id=array();
+            foreach($notens as $noten) {
+                if ($noten['schueler_id']==$schueler_id) {
+                    $schueler_id[]=$noten;
+                }
+            }
 
+        }
+	
+	
 }
+
 
 ?>

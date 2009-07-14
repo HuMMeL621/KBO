@@ -1,6 +1,6 @@
 <?php
 
-class Noten extends db implements Dmlable{
+class Note extends db implements Dmlable{
 	
 	//PrimÃ¤rschlÃ¼ssel
 	private $note_id;
@@ -10,13 +10,10 @@ class Noten extends db implements Dmlable{
 	private $lehrer_id;
 	private $note;
 	private $datum;
-
-        public $notens;
-
-	/*
-         * Name der Klasse
-	 * string
-	 * 45 Zeichen erlaubt
+	
+	/*Name der Klasse
+	 *string
+	 *45 Zeichen erlaubt
 	*/
 	private $type;
 	
@@ -46,56 +43,56 @@ class Noten extends db implements Dmlable{
 		/*
 	 *resturn int
 	*/
-	public function getLid(){
+	public function getLehrer_id(){
 		return $this -> lehrer_id;
 	}
 	
 	/*
 	 *parameter int $lehrer_id
 	*/
-	public function setLid($lehrer_id){
+	public function setLehrer_id($lehrer_id){
 		$this->lehrer_id = $lehrer_id;
 	}
 	
 		/*
 	 *resturn int
 	*/
-	public function getFid(){
+	public function getFach_id(){
 		return $this -> fach_id;
 	}
 	
 	/*
 	 *parameter int $fach_id
 	*/
-	public function setFid($fach_id){
+	public function setFach_id($fach_id){
 		$this->fach_id = $fach_id;
 	}
 	
 		/*
 	 *resturn int
 	*/
-	public function getSid(){
+	public function getSchueler_id(){
 		return $this -> schueler_id;
 	}
 	
 	/*
 	 *parameter int $schueler_id
 	*/
-	public function setSid($schueler_id){
+	public function setSchueler_id($schueler_id){
 		$this->schuler_id = $schueler_id;
 	}
 	
 		/*
 	 *resturn int
 	*/
-	public function getDid(){
+	public function getDatum(){
 		return $this -> datum;
 	}
 	
 	/*
 	 *parameter int $datum
 	*/
-	public function setDid($datum){
+	public function setDatum($datum){
 		$this->datum = $datum;
 	}
 	
@@ -116,14 +113,14 @@ class Noten extends db implements Dmlable{
 	/*
 	 *return string
 	*/
-	public function getNid(){
+	public function getNote_id(){
 		return $this -> note_id;
 	}
 	
 	/*
 	 *parameter string $name
 	*/
-	public function setNid($note_id){
+	public function setNote_id($note_id){
 		$this->note_id = $note_id;
 	}
 	
@@ -203,7 +200,7 @@ class Noten extends db implements Dmlable{
 					 ,klasse_id
 					 ,datum
 					 ,fach_id
-				FROM klasse
+				FROM note
 				WHERE 1=1";
 		$sql .=$restriction. ";";
 		
@@ -231,8 +228,9 @@ class Noten extends db implements Dmlable{
 		}
 		
 		return $noten;
-	}
 
+    }
+    
         /**
          *
          * @param <type> $restriction
@@ -240,14 +238,15 @@ class Noten extends db implements Dmlable{
          * Hier wird die Variable Noten aufgefüllt :)
          */
 
-	public function getAllAsObject(){
-		$sql="SELECT klasse_id
-                            ,fach_id
-                            ,schueler_id
+	public function getAllAsObject($restriction = ''){
+		$sql="SELECT schueler_id
                             ,typ
-                            ,note
+                            ,fach_id
                             ,datum
-				FROM noten";
+                            ,note
+				FROM noten
+				WHERE 1=1";
+		$sql .=$restriction. ";";
 
 		try {
 			$result = mysql_query($sql);
@@ -255,20 +254,24 @@ class Noten extends db implements Dmlable{
 			if(!result) {
 				throw new MysqlException();
 			}
-			while ($row = mysql_fetch_assoc($result)){
 
-                            $noten['klasse_id']=$row['klasse_id'];
-                            $noten['fach_id']=$row['fach_id'];
-                            $noten['schueler_id']=$row['schueler_id'];
-                            $noten['typ']=$row['typ'];
-                            $noten['note']=$row['note'];
-                            $noten['datum']=$row['datum'];
-                            $this->notens[]=$noten;
+			$notens = array();
+			while ($row = mysql_fetch_assoc($result)){
+                            $notens[]=$row['note_id'];
+                            $notens[]=$row['lehrer_id'];
+                            $notens[]=$row['fach_id'];
+                            $notens[]=$row['schueler_id'];
+                            $notens[]=$row['typ'];
+                            $notens[]=$row['fach_id'];
+                            $notens[]=$row['datum'];
+                            $notens[]=$row['note'];
 			}
 		}
+
 		catch(MysqlException $e){
 			Html::showAll($e);
 		}
+
 	}
 
 	public function load($id){
@@ -304,166 +307,49 @@ class Noten extends db implements Dmlable{
 		
 	}
 
-        /**
-         *
-         * @param integer $klasse_id
-         * @return array
-         *
-         * Rückgabe aller Noten aus der Datenbank von der angegebenen Klasse
-         */
+    public function loadNote($fach_id=0, $schueler_id=0) {
+			$sql= "SELECT * 
+					FROM noten ";
+			if ( $fach_id==0){
+				$sql.= "WHERE 1=1 ";
+			} else { 
+				$sql .= "WHERE fach_id = ".$fach_id." ";
+			}
+			if($schueler_id !=0 ){
+				$sql.="AND schueler_id = ".$schueler_id." ";
+			}
+			$notens= array ();
+			try{
+			$result = mysql_query ($sql);
+			while ($row = mysql_fetch_assoc($result)){
+			
+				if (empty($row['note_id'])){
+					throw new MysqlException("Datensatz leer: ". $sql);
+				}	
+                
+				$m = new Note ();
+				
+				$m->note_id=$row['note_id'];
+				$m->note=$row['note'];
+				$m->type=$row['typ'];
+				$m->datum=$row['datum'];
+				$m->lehrer_id=$row['lehrer_id'];
+				$m->schueler_id=$row['schueler_id'];
+				$m->fach_id=$row['fach_id'];
+				$m->klasse_id=$row['klasse_id'];
+				$notens [ $m->note_id ] = $m;
+			}
+			catch (MysqlException $e) {
+				Html::showAll($e);
+			} 
+			catch (Exception $e) {
+				Html::showAll($e);
+			}
+			return notens;
+					
+		 
+           
 
-        public function getAllNoten($klasse_id=0) {
-
-            //Mysql-Datensatz aus der Datenbank ins Array notens schreiben
-            $this->getAllAsObject();
-
-            $klasse_noten=array();
-
-            foreach($this->notens as $noten) {
-                if ($noten['klasse_id']==$klasse_id) {
-                        $buffer['klasse_id']=$noten['klasse_id'];
-                        $buffer['schueler_id']=$noten['schueler_id'];
-                        $buffer['fach_id']=$noten['fach_id'];
-                        $buffer['typ']=$noten['typ'];
-                        $buffer['note']=$noten['note'];
-                        $buffer['datum']=$noten['datum'];
-                        $klasse_noten[]=$buffer;
-                    }
-            }
-            return $klasse_noten;
-
-/*
-            $ausgabe = array();
-            $zwischen = array();    //Dient als Zwischenablage um das Array nach
-                                    //Klassen sortieren zu können
-
-            foreach($this->notens as $noten) {
-                static $i=0;
-                static $last_klasse;
-                $buffer['klasse_id']=$noten['klasse_id'];
-                $buffer['schueler_id']=$noten['schueler_id'];
-                $buffer['fach_id']=$noten['fach_id'];
-                $buffer['typ']=$noten['typ'];
-                $buffer['note']=$noten['note'];
-                $buffer['datum']=$noten['datum'];
-                $zwischen[$i]=$buffer;
-                $ausgabe[$noten['klasse_id']]=$zwischen;
-                foreach($zwischen as $zwischen) {
-                    $zwischen='';
-                }
-                $last_klasse = $noten['klasse_id'];
-                $i++;
-            }
-            return $ausgabe; */
-            
-        }
-
-        /**
-         *
-         * @param integer $schueler_id
-         * @return array
-         *
-         * Rückgabe der Noten des angegebenen Schuelers als array.
-         */
-
-        public function getNoten($schueler_id=0) {
-
-            //Mysql-Datensatz aus der Datenbank ins Array notens schreiben
-            $this->getAllAsObject();
-
-            $schueler_noten=array();
-            
-            foreach($this->notens as $noten) {
-                if ($noten['schueler_id']==$schueler_id) {
-                    if ($noten['schueler_id']==$schueler_id) {
-                        $buffer['schueler_id']=$noten['schueler_id'];
-                        $buffer['fach_id']=$noten['fach_id'];
-                        $buffer['typ']=$noten['typ'];
-                        $buffer['note']=$noten['note'];
-                        $buffer['datum']=$noten['datum'];
-                        $schueler_noten[]=$buffer;
-                    }
-                }
-            }
-            return $schueler_noten;
-        }
-
-        /**
-         *
-         * @param integer $fach_id
-         * @param integer $schueler_id
-         * @return integer
-         *
-         * Übergibt die Durchschnittsnote für das gewählte Fach für den
-         * angegebenen Schueler.
-         */
-         
-        public function getDurchschnitt($fach_id=0, $schueler_id=0) {
-            
-
-            //Mysql-Datensatz aus der Datenbank ins Array notens schreiben
-            $this->getAllAsObject();
-
-            $schueler_noten=array();
-
-            foreach($this->notens as $noten) {
-                if ($noten['schueler_id']==$schueler_id) {
-                    if ($noten['schueler_id']==$schueler_id) {
-                        $buffer['schueler_id']=$noten['schueler_id'];
-                        $buffer['fach_id']=$noten['fach_id'];
-                        $buffer['typ']=$noten['typ'];
-                        $buffer['note']=$noten['note'];
-                        $buffer['datum']=$noten['datum'];
-                        $schueler_noten[]=$buffer;
-                    }
-                }
-            }
-
-            $d_anzahl=0;
-            $d_note=0;
-
-            foreach($schueler_noten as $noten) {
-                if($noten['fach_id']==$fach_id) {
-
-                    switch ($noten['typ']) {
-
-                        case 'K': {
-                                $d_note=$d_note+$noten['note']+$noten['note'];
-                                $d_anzahl++;
-                                $d_anzahl++;
-                                break;
-                        }
-                        case 'T': {
-                                $d_note=$d_note+$noten['note'];
-                                $d_anzahl++;
-                                break;
-                        }
-                        case 'H': {
-                                $d_note=$d_note+$noten['note'];
-                                $d_anzahl++;
-                                break;
-                        }
-                        case 'M': {
-                                $d_note=$d_note+$noten['note'];
-                                $d_anzahl++;
-                                break;
-                        }
-                        default:  {
-                                break;
-                        }
-
-                    }
-                    
-                }
-            }
-            
-            if($d_anzahl>0) {
-                $durchschnittsnote = $d_note/$d_anzahl;
-            } else {
-                $durchschnittsnote = '';
-            }
-
-            return $durchschnittsnote;
-        }
+        
 }		
 ?>
