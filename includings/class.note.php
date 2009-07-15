@@ -237,16 +237,11 @@ class Noten extends db implements Dmlable{
          *
          * @param <type> $restriction
          *
-         * Hier wird die Variable Noten aufgefüllt :)
+         * Hier wird die Variable Noten aufgefï¿½llt :)
          */
 
 	public function getAllAsObject(){
-		$sql="SELECT klasse_id
-                            ,fach_id
-                            ,schueler_id
-                            ,typ
-                            ,note
-                            ,datum
+		$sql="SELECT *
 				FROM noten";
 
 		try {
@@ -256,28 +251,21 @@ class Noten extends db implements Dmlable{
 				throw new MysqlException();
 			}
 			while ($row = mysql_fetch_assoc($result)){
-
+							$noten=array();
                             $noten['klasse_id']=$row['klasse_id'];
                             $noten['fach_id']=$row['fach_id'];
                             $noten['schueler_id']=$row['schueler_id'];
                             $noten['typ']=$row['typ'];
                             $noten['note']=$row['note'];
                             $noten['datum']=$row['datum'];
+							$noten['note_id']=$row['note_id'];
                             $this->notens[]=$noten;
-                            /*
-                             * noten als objekt
-                             *
-                             * 
-                             */
-
-                             $n=new noten;
 			}
-
-
 		}
 		catch(MysqlException $e){
 			Html::showAll($e);
 		}
+		return $notens;
 	}
 
 	public function load($id){
@@ -285,7 +273,6 @@ class Noten extends db implements Dmlable{
 		$sql="SELECT *
 				FROM noten
 			  	WHERE note_id=".$id.";";
-		
 		try{
 			$result = mysql_query ($sql);
 			$row = mysql_fetch_assoc($result);
@@ -318,7 +305,7 @@ class Noten extends db implements Dmlable{
          * @param integer $klasse_id
          * @return array
          *
-         * Rückgabe aller Noten aus der Datenbank von der angegebenen Klasse
+         * Rï¿½ckgabe aller Noten aus der Datenbank von der angegebenen Klasse
          */
 
         public function getAllNoten($klasse_id=0) {
@@ -344,7 +331,7 @@ class Noten extends db implements Dmlable{
 /*
             $ausgabe = array();
             $zwischen = array();    //Dient als Zwischenablage um das Array nach
-                                    //Klassen sortieren zu können
+                                    //Klassen sortieren zu kï¿½nnen
 
             foreach($this->notens as $noten) {
                 static $i=0;
@@ -372,24 +359,26 @@ class Noten extends db implements Dmlable{
          * @param integer $schueler_id
          * @return array
          *
-         * Rückgabe der Noten des angegebenen Schuelers als array.
+         * Rï¿½ckgabe der Noten des angegebenen Schuelers als array.
          */
 
         public function getNoten($schueler_id=0) {
 
             //Mysql-Datensatz aus der Datenbank ins Array notens schreiben
             $this->getAllAsObject();
-
+			//Html::showAll($this->notens);
             $schueler_noten=array();
             
             foreach($this->notens as $noten) {
                 if ($noten['schueler_id']==$schueler_id) {
                     if ($noten['schueler_id']==$schueler_id) {
+						$buffer=array();
                         $buffer['schueler_id']=$noten['schueler_id'];
                         $buffer['fach_id']=$noten['fach_id'];
                         $buffer['typ']=$noten['typ'];
                         $buffer['note']=$noten['note'];
                         $buffer['datum']=$noten['datum'];
+			$buffer['note_id']=$noten['note_id'];
                         $schueler_noten[]=$buffer;
                     }
                 }
@@ -403,7 +392,7 @@ class Noten extends db implements Dmlable{
          * @param integer $schueler_id
          * @return integer
          *
-         * Übergibt die Durchschnittsnote für das gewählte Fach für den
+         * ï¿½bergibt die Durchschnittsnote fï¿½r das gewï¿½hlte Fach fï¿½r den
          * angegebenen Schueler.
          */
          

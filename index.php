@@ -3,15 +3,15 @@
 /**************************PHP-Start***********************/
 /**/                                                    /**/
 /**/    session_start();      //Start                   /**/
-/**/    $_SESSION = array();  //$_SESSIOn Daten-Array   /**/
+/**/    $_SESSION = array();  //$_SESSION Daten-Array   /**/
 /**/                                                    /**/
 /**********************************************************/
 
 
-//Informationen f�r das array $_SESSTION beim einloggen
+//Informationen f?r das array $_SESSTION beim einloggen
 $_SESSION['user']['user_id']    //ID des eingeloggten Users
-                 ['vorname']    //Vorname des Sch�lers aus der Datenbank
-                 ['nachname']   //Nachname des Sch�lers aus der Datenbank
+                 ['vorname']    //Vorname des Sch?lers aus der Datenbank
+                 ['nachname']   //Nachname des Sch?lers aus der Datenbank
                  ['level'];     //Level (Was darf der Schueler sehen?)
 
 
@@ -33,8 +33,9 @@ $_SESSION['user']['user_id']    //ID des eingeloggten Users
 /**/   include ('includings/class.schueler.php');       /**/
 /**/   include ('includings/class.user.php');           /**/
 /**/   include ('includings/class.stundenplan.php');    /**/
+/**/   include ('includings/class.htmlschueler.php');   /**/
 /**/                                                    /**/
 /**********************************************************/
-include ('views/test_schueler.php');
+include ('views/notenliste.php');
 
 ?>

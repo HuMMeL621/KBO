@@ -14,7 +14,6 @@ class schueler extends Db implements Dmlable {
 	private $vorname;
 	private $nachname;
 	private $klasse_id;
-	private $passwd;
 
         public $notens;
 
@@ -33,7 +32,7 @@ class schueler extends Db implements Dmlable {
 			Html::showAll($e);
 	    }
             //Noten alles Schueler werden übergeben
-            $notens = Noten::getAllAsObject();
+            //$notens = Noten::getAllAsObject();
 	}
 	/**
 	 * @return int
@@ -65,12 +64,16 @@ class schueler extends Db implements Dmlable {
 		$this->nachname = $nachname;
 	}
 	
-	public function getPasswd() {
-		return $this->passwd;
+	public function getName() {
+		return $this->getNachname().', '.$this->getVorname();
+	}
+	
+	public function getKlasse_id() {
+		return $this->klasse_id;
 	}
 
-	public function setPasswd($passwd) {
-		$this->passwd = $passwd;
+	public function setKlasse_id($klasse_id) {
+		$this->klasse_id = $klasse_id;
 	}
 	
 
@@ -165,6 +168,36 @@ class schueler extends Db implements Dmlable {
 		}
 		
 		return $fachs;
+	}
+	
+	public function getAllAsObject($restriction = ''){
+		$sql="SELECT *
+				FROM schueler
+				WHERE 1=1";
+		$sql .=$restriction. ";";
+
+		try {
+			$result = mysql_query($sql);
+
+			if(!result) {
+				throw new MysqlException();
+			}
+
+			$schuelers = array();
+			while ($row = mysql_fetch_assoc($result)){
+							$s=new Schueler();
+							$s->setId($row['schueler_id']);
+							$s->setVorname($row['vorname']);
+							$s->setNachname($row['nachname']);
+							$s->setKlasse_id($row['klasse_id']);
+							$schuelers[$s->getId()]=$s;
+			}
+		}
+
+		catch(MysqlException $e){
+			Html::showAll($e);
+		}
+		return $schuelers;
 	}
 	
 	public function load($id) {

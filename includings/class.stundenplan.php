@@ -136,6 +136,16 @@ class stundenplan extends db implements Dmlable {
 //
 //        }
 
+        /**
+         *
+         * @param <integer $klasse_id
+         * @param date $datum
+         * @param integer $block_id
+         * @return array
+         *
+         * Durch eingabe der klasse_id, des Datums und der block_id,
+         * erhält man den Lehrer, das Fach, den Raum und die Vertretung
+         */
 
         public function get_LFR($klasse_id=0, $datum = "", $block_id=0) {
 
