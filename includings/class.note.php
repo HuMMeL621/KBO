@@ -46,56 +46,56 @@ class Noten extends db implements Dmlable{
 		/*
 	 *resturn int
 	*/
-	public function getLid(){
+	public function getLehrer_id(){
 		return $this -> lehrer_id;
 	}
 	
 	/*
 	 *parameter int $lehrer_id
 	*/
-	public function setLid($lehrer_id){
+	public function setLehrer_id($lehrer_id){
 		$this->lehrer_id = $lehrer_id;
 	}
 	
 		/*
 	 *resturn int
 	*/
-	public function getFid(){
+	public function getFach_id(){
 		return $this -> fach_id;
 	}
 	
 	/*
 	 *parameter int $fach_id
 	*/
-	public function setFid($fach_id){
+        public function setFach_id(){
 		$this->fach_id = $fach_id;
 	}
 	
 		/*
 	 *resturn int
 	*/
-	public function getSid(){
+	public function getSchueler_id(){
 		return $this -> schueler_id;
 	}
 	
 	/*
 	 *parameter int $schueler_id
 	*/
-	public function setSid($schueler_id){
+	public function setSchueler_id($schueler_id){
 		$this->schuler_id = $schueler_id;
 	}
 	
 		/*
 	 *resturn int
 	*/
-	public function getDid(){
+	public function getDatum(){
 		return $this -> datum;
 	}
 	
 	/*
 	 *parameter int $datum
 	*/
-	public function setDid($datum){
+	public function setDatum($datum){
 		$this->datum = $datum;
 	}
 	
@@ -116,14 +116,14 @@ class Noten extends db implements Dmlable{
 	/*
 	 *return string
 	*/
-	public function getNid(){
+	public function getNote_id(){
 		return $this -> note_id;
 	}
 	
 	/*
 	 *parameter string $name
 	*/
-	public function setNid($note_id){
+	public function setNote_id($note_id){
 		$this->note_id = $note_id;
 	}
 	
