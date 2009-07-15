@@ -2,6 +2,16 @@
 
 class stundenplan extends db implements Dmlable {
 
+    private $abgezeichnet_id;
+    private $block_id;
+    private $datum;
+    private $raum_id;
+    private $lehrer_id;
+    private $vertretung_id;
+    private $unterrichtsstunde_id;
+    private $klasse_id;
+    private $fach_id;
+    private $fbl_id;
 
 	public function __construct(){
 		try{
@@ -51,6 +61,8 @@ class stundenplan extends db implements Dmlable {
         public function getAllAsObject($wochenbeginn='') {
         
         //$anwesenheits = Anwesenheit::getAllAsObject();
+
+        
 
         }
 

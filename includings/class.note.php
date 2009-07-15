@@ -264,7 +264,16 @@ class Noten extends db implements Dmlable{
                             $noten['note']=$row['note'];
                             $noten['datum']=$row['datum'];
                             $this->notens[]=$noten;
+                            /*
+                             * noten als objekt
+                             *
+                             * 
+                             */
+
+                             $n=new noten;
 			}
+
+
 		}
 		catch(MysqlException $e){
 			Html::showAll($e);

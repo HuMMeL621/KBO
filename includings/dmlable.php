@@ -12,13 +12,14 @@ interface Dmlable {
 	function load($id);
 	
 	function delete($id);
-	
-	/**
+
+        /**
 	 * gibt alle Datensätze als Array zurück, dessen Elemente Objekte sind
 	 *
 	 * @param string $restriction Ergänzung der WHERE-claue mittels AND
-	 * @example $restriction = " AND id > 22 "  
+	 * @example $restriction = " AND id > 22 "
 	 */
+
 	function getAllAsArray($restriction = '');
 	
 }
