@@ -136,76 +136,50 @@ class stundenplan extends db implements Dmlable {
 //
 //        }
 
-        /**
-         * Auslesen der Lehrer, des Fachs und des Raums durch
-         * angabe von klasse_id, Datum und der Blocknummer
-         */
 
-        public function get_LFR($klasse_id=0, $datum = "", $block_nr=0) {
-
-
-            //Instanz der Klasse db zur Verbindung zur Datenbank
-            $klabu_db = new db;
-
+        public function get_LFR($klasse_id=0, $datum = "", $block_id=0) {
 
             //sql-Befehl zur ausgabe der Zeiten und des Blocks
-            $sql = "SELECT block_nr, datum, klasse_id,
-                    raum_id, lehrer_id, vertretung_id, fach_id FROM wochenplan
+            $sql = "SELECT block_id, datum, klasse_id,
+                    raum_id, lehrer_id, vertretung_id, fach_id FROM unterrichtsstunde
                     WHERE klasse_id = ".$klasse_id." "."
-                    AND datum = '".$datum."' AND block_nr = ".$block_nr;
+                    AND datum = '".$datum."' AND block_id = ".$block_id;
 
-            $result = mysql_query($sql);
+            try {
+                    $result = mysql_query($sql);
 
-            echo $sql;
+                    if(!result) {
+                            throw new MysqlException();
+                    }
 
-
-            /*
-             * Fehlerbehandlung falls die Anfrage fehlt schlägt
-             */
-            if(!result) {
-                echo "Die Anfrage ".$sql.
-                       " konnte nicht bearbeitet werden".mysql_error();
-            }
-
-            /*
-             * Datenbank ist leer ;)
-             */
-
-            if(mysql_num_rows($result)==0) {
-                echo "Error: Anfrage wurde nicht durchgeführt,
-                      da keine Zeilen zum ausgeben gefunden wurden";
-            }
-
-            /**
-             * - Wenn alles glatt läuft gehts hier weiter:
-             * - Alle Daten werden in ein Array ($ausgabe) geschrieben
-             * - und mit return zurück gegeben
-             */
-
-
-            while($data = mysql_fetch_assoc($result)) {
-
-                $dummy['block_nr']=$data['block_nr'];
+                while($data = mysql_fetch_assoc($result)) {
+                $dummy['block_id']=$data['block_id'];
                 $dummy['datum']=$data['datum'];
-                $dummy['klasse']=$klabu_db->resolve_Id(klasse, klasse_id, $data['klasse_id']);
-                $dummy['raum']=$klabu_db->resolve_Id(raume, raum_id, $data['raum_id']);
-                $dummy['lehrer']=$klabu_db->resolve_Lehrer($data['lehrer_id']);
-                $dummy['fach']=$klabu_db->resolve_Id(fach, fach_id, $data['fach_id']);
+                $dummy['klasse']=db::resolve_Id(klasse, klasse_id, $data['klasse_id']);
+                $dummy['raum']=db::resolve_Id(raum, raum_id, $data['raum_id']);
+                $dummy['lehrer']=db::resolve_Lehrer($data['lehrer_id']);
+                $dummy['fach']=db::resolve_Id(fach, fach_id, $data['fach_id']);
 
                 //Vertretung nur Anzeigen falls eine Vertretung gewählt wurde
                 if($data['vertretung_id']!=0) {
                 $dummy['vertretung']=$klabu_db->resolve_Lehrer($data['vertretung_id']); }
 
                 $ausgabe[] = $dummy;
+            
+                }
 
-             }
+            }
 
-            return $ausgabe;            //Nachdem die While Schleife durchlaufen ist,
-                                        //wird das array übergeben
+            catch(MysqlException $e){
+                Html::showAll($e);
+            }
 
-            mysql_free_result($result); //Aufräumen
-            $klabu_db->disconnect();    //Verbindung trennen
+            return $ausgabe;
+        }
+        
 
+        public function UseForPeriod($von='', $bis='', $plan='') {
+            
         }
 
 	public function save(){

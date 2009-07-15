@@ -1,11 +1,9 @@
 <?php
 
-$testme = new schueler();
+$testme = new stundenplan();
 
-$testme->load(1);
+$ausgabe = $testme -> get_LFR(3, '2009-07-01', 2);
 
-$testme->loadAnwesenheits();
-$testme->loadNotens();
-html::showAll($testme);
+html::showAll($ausgabe);
 
 ?>
