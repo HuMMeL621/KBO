@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 15, 2009 at 08:31 
+-- Generation Time: Jul 15, 2009 at 09:16 
 -- Server version: 5.1.33
 -- PHP Version: 5.2.9
 
@@ -188,6 +188,7 @@ CREATE TABLE IF NOT EXISTS `noten` (
   `klasse_id` int(11) NOT NULL,
   `note` int(11) NOT NULL COMMENT 'punktesystem',
   `note_id` int(11) NOT NULL AUTO_INCREMENT,
+  `unterrichtsstunde_id` int(11) NOT NULL,
   PRIMARY KEY (`note_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
@@ -195,10 +196,10 @@ CREATE TABLE IF NOT EXISTS `noten` (
 -- Dumping data for table `noten`
 --
 
-INSERT INTO `noten` (`schueler_id`, `fach_id`, `typ`, `datum`, `lehrer_id`, `klasse_id`, `note`, `note_id`) VALUES
-(3, 3, 'K', '2009-07-09', 3, 3, 2, 3),
-(3, 3, 'M', '2009-07-09', 3, 3, 3, 2),
-(1, 3, 'T', '2009-07-09', 3, 2, 1, 4);
+INSERT INTO `noten` (`schueler_id`, `fach_id`, `typ`, `datum`, `lehrer_id`, `klasse_id`, `note`, `note_id`, `unterrichtsstunde_id`) VALUES
+(3, 3, 'K', '2009-07-09', 3, 3, 2, 3, 0),
+(3, 3, 'M', '2009-07-09', 3, 3, 3, 2, 0),
+(1, 3, 'T', '2009-07-09', 3, 2, 1, 4, 0);
 
 -- --------------------------------------------------------
 
