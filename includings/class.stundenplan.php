@@ -36,7 +36,7 @@ class stundenplan extends db implements Dmlable {
                     FROM zeiten";
 
 
-            		try {
+                try {
 			$result = mysql_query($sql);
 
 			if(!result) {
